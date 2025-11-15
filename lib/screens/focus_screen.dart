@@ -65,7 +65,9 @@ class _FocusScreenState extends State<FocusScreen> {
   void _switchMode(String newMode) {
     setState(() {
       mode = newMode;
-      timeRemaining = (newMode == 'pomodoro') ? pomodoroDuration : (newMode == 'shortBreak' ? shortBreakDuration : longBreakDuration);
+      timeRemaining = (newMode == 'pomodoro')
+          ? pomodoroDuration
+          : (newMode == 'shortBreak' ? shortBreakDuration : longBreakDuration);
     });
   }
 
@@ -85,28 +87,50 @@ class _FocusScreenState extends State<FocusScreen> {
   Widget build(BuildContext context) {
     final isPaused = !isActive && timeRemaining > 0;
     return Scaffold(
-      appBar: AppBar(title: const Text('Focus')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(mode == 'pomodoro' ? 'Focus Time' : mode == 'shortBreak' ? 'Short Break' : 'Long Break', style: const TextStyle(fontWeight: FontWeight.bold)),
+          Text(
+              mode == 'pomodoro'
+                  ? 'Focus Time'
+                  : mode == 'shortBreak'
+                      ? 'Short Break'
+                      : 'Long Break',
+              style: const TextStyle(fontWeight: FontWeight.bold)),
           const SizedBox(height: 12),
           Container(
             width: 220,
             height: 220,
-            decoration: BoxDecoration(border: Border.all(color: Colors.grey.shade300, width: 8), shape: BoxShape.circle),
-            child: Center(child: Text(_format(timeRemaining), style: const TextStyle(fontSize: 36, fontWeight: FontWeight.bold))),
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey.shade300, width: 8),
+                shape: BoxShape.circle),
+            child: Center(
+                child: Text(_format(timeRemaining),
+                    style: const TextStyle(
+                        fontSize: 36, fontWeight: FontWeight.bold))),
           ),
           const SizedBox(height: 16),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             if (!isActive && !isPaused)
-              ElevatedButton.icon(onPressed: _start, icon: const Icon(Icons.play_arrow), label: const Text('Start')),
+              ElevatedButton.icon(
+                  onPressed: _start,
+                  icon: const Icon(Icons.play_arrow),
+                  label: const Text('Start')),
             if (isPaused)
-              ElevatedButton.icon(onPressed: _start, icon: const Icon(Icons.play_arrow), label: const Text('Resume')),
+              ElevatedButton.icon(
+                  onPressed: _start,
+                  icon: const Icon(Icons.play_arrow),
+                  label: const Text('Resume')),
             if (isActive)
-              ElevatedButton.icon(onPressed: _pause, icon: const Icon(Icons.pause), label: const Text('Pause')),
+              ElevatedButton.icon(
+                  onPressed: _pause,
+                  icon: const Icon(Icons.pause),
+                  label: const Text('Pause')),
             const SizedBox(width: 12),
-            OutlinedButton.icon(onPressed: _reset, icon: const Icon(Icons.restart_alt), label: const Text('Reset')),
+            OutlinedButton.icon(
+                onPressed: _reset,
+                icon: const Icon(Icons.restart_alt),
+                label: const Text('Reset')),
           ]),
           const SizedBox(height: 20),
           Text('Completed sessions: $completedSessions / 4'),
