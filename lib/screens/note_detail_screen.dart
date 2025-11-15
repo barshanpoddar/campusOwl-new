@@ -88,7 +88,8 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
           ),
           // Action buttons bar at the bottom
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            // reduced vertical padding to make the bar more compact
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
               color: Colors.white,
               border: Border(top: BorderSide(color: Colors.grey.shade200)),
@@ -140,8 +141,8 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+  child: Container(
+  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -164,7 +165,7 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
                       ),
               ),
             ),
-            const SizedBox(height: 6),
+            const SizedBox(height: 4),
             Text(
               label,
               style: TextStyle(
@@ -173,7 +174,7 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
                 color: Colors.grey[800],
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 2),
           ],
         ),
       ),
