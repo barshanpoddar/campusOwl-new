@@ -66,7 +66,8 @@ class CustomTabBar extends StatelessWidget {
                 child: InkWell(
                   onTap: () => onTabChanged(tab.id),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 16),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -104,26 +105,45 @@ class CustomTabBar extends StatelessWidget {
               );
             }).toList(),
           ),
-          // Indicator row - each indicator takes full width of its tab
-          Row(
-            children: tabs.asMap().entries.map((entry) {
-              final tab = entry.value;
-              final isActive = activeTabId == tab.id;
+          // Animated indicator that slides to the active tab
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final total = tabs.length;
+              final tabWidth = total > 0
+                  ? constraints.maxWidth / total
+                  : constraints.maxWidth;
+              final activeIndex = tabs.indexWhere((t) => t.id == activeTabId);
+              final left = (activeIndex >= 0 ? activeIndex : 0) * tabWidth;
 
-              return Expanded(
-                child: Container(
-                  height: indicatorHeight,
-                  color: isActive ? effectiveIndicatorColor : Colors.transparent,
+              return SizedBox(
+                height: indicatorHeight + (showDivider ? 1.0 : 0.0),
+                child: Stack(
+                  children: [
+                    // Optional divider line (kept behind the indicator)
+                    if (showDivider)
+                      Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        child:
+                            Container(height: 1, color: Colors.grey.shade200),
+                      ),
+
+                    // Sliding indicator
+                    AnimatedPositioned(
+                      duration: const Duration(milliseconds: 260),
+                      curve: Curves.easeInOut,
+                      left: left,
+                      width: tabWidth,
+                      bottom: 0,
+                      height: indicatorHeight,
+                      child: Container(color: effectiveIndicatorColor),
+                    ),
+                  ],
                 ),
               );
-            }).toList(),
+            },
           ),
-          // Divider
-          if (showDivider)
-            Container(
-              height: 1,
-              color: Colors.grey.shade200,
-            ),
         ],
       ),
     );
