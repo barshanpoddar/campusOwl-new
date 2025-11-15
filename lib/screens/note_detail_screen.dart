@@ -6,7 +6,7 @@ class NoteDetailScreen extends StatefulWidget {
   final Note note;
   final VoidCallback onClose;
 
-  const NoteDetailScreen({Key? key, required this.note, required this.onClose}) : super(key: key);
+  const NoteDetailScreen({super.key, required this.note, required this.onClose});
 
   @override
   State<NoteDetailScreen> createState() => _NoteDetailScreenState();

@@ -13,7 +13,7 @@ class AppIcon extends StatelessWidget {
   final double size;
   final Color? color;
 
-  const AppIcon({Key? key, this.assetName, this.icon, this.size = 24, this.color}) : super(key: key);
+  const AppIcon({super.key, this.assetName, this.icon, this.size = 24, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class AppIcon extends StatelessWidget {
           final path = snap.data;
           if (path == null) return Icon(icon ?? Icons.circle, size: size, color: color);
           if (path.endsWith('.svg')) {
-            return SvgPicture.asset(path, width: size, height: size, color: color);
+            return SvgPicture.asset(path, width: size, height: size, colorFilter: ColorFilter.mode(color ?? Colors.black, BlendMode.srcIn));
           }
           return Image.asset(path, width: size, height: size, color: color);
         }

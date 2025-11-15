@@ -21,7 +21,7 @@ void main() {
 }
 
 class CampusOwlApp extends StatelessWidget {
-  const CampusOwlApp({Key? key}) : super(key: key);
+  const CampusOwlApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class CampusOwlApp extends StatelessWidget {
 }
 
 class MainPage extends StatefulWidget {
-  const MainPage({Key? key}) : super(key: key);
+  const MainPage({super.key});
 
   @override
   State<MainPage> createState() => _MainPageState();

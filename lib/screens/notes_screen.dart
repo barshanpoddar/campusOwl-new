@@ -5,7 +5,7 @@ import 'note_detail_screen.dart';
 import 'group_chat_screen.dart';
 
 class NotesScreen extends StatefulWidget {
-  const NotesScreen({Key? key}) : super(key: key);
+  const NotesScreen({super.key});
 
   @override
   State<NotesScreen> createState() => _NotesScreenState();
@@ -65,10 +65,10 @@ class _NotesScreenState extends State<NotesScreen> {
 
   Widget _buildNotesList() {
     return ListView.separated(
-      itemCount: DUMMY_NOTES.length,
+      itemCount: dummyNotes.length,
       separatorBuilder: (_, __) => const SizedBox(height: 8),
       itemBuilder: (context, index) {
-        final note = DUMMY_NOTES[index];
+        final note = dummyNotes[index];
         return InkWell(
           onTap: () => setState(() => _selectedNote = note),
           child: Container(
@@ -98,10 +98,10 @@ class _NotesScreenState extends State<NotesScreen> {
 
   Widget _buildGroupsList() {
     return ListView.separated(
-      itemCount: DUMMY_GROUPS.length,
+      itemCount: dummyGroups.length,
       separatorBuilder: (_, __) => const SizedBox(height: 8),
       itemBuilder: (context, index) {
-        final group = DUMMY_GROUPS[index];
+        final group = dummyGroups[index];
         return InkWell(
           onTap: () => setState(() => _selectedGroup = group),
           child: Container(

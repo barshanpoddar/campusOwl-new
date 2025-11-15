@@ -5,16 +5,16 @@ import '../widgets/app_icon.dart';
 import '../providers/theme_provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final Note featuredNote = DUMMY_NOTES[0];
-  final Job featuredJob = DUMMY_JOBS[0];
-  final Mess featuredMess = DUMMY_MESSES[0];
+  final Note featuredNote = dummyNotes[0];
+  final Job featuredJob = dummyJobs[0];
+  final Mess featuredMess = dummyMesses[0];
 
   List<bool> streak = [true, true, true, false, false]; // 5 days, 3 complete
 
@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         const Text(
                           'Hello, Student!',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                           ),
@@ -123,10 +123,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 24),
 
                 // Recent Note
-                const Text(
-                  'Recent Note',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
+const Text(
+  'Recent Note',
+  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+),
                 const SizedBox(height: 8),
                 Container(
                   padding: const EdgeInsets.all(16),
@@ -142,10 +142,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Text(
                         featuredNote.subject,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 12,
-                          backgroundColor: const Color(0xFFFFF3CD),
-                          color: const Color(0xFF856404),
+                          backgroundColor: Color(0xFFFFF3CD),
+                          color: Color(0xFF856404),
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -169,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 // Featured Gig
                 const Text(
                   'Featured Gig',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 8),
                 Container(

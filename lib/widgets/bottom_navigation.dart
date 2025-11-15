@@ -9,7 +9,7 @@ class BottomNavigation extends StatelessWidget {
   final ValueChanged<int> onTap;
   final List<NavigationItem>? items;
 
-  const BottomNavigation({Key? key, required this.currentIndex, required this.onTap, this.items}) : super(key: key);
+  const BottomNavigation({super.key, required this.currentIndex, required this.onTap, this.items});
 
   @override
   Widget build(BuildContext context) {
@@ -78,9 +78,12 @@ class _BottomNavigationItem extends StatelessWidget {
                   asset!,
                   width: 24,
                   height: 24,
-                  color: isSelected
-                      ? Theme.of(context).primaryColor
-                      : Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,
+                  colorFilter: ColorFilter.mode(
+                    isSelected
+                        ? Theme.of(context).primaryColor
+                        : Theme.of(context).bottomNavigationBarTheme.unselectedItemColor!,
+                    BlendMode.srcIn,
+                  ),
                 )
               else
                 AppIcon(

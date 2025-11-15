@@ -43,7 +43,7 @@ class Note {
   });
 }
 
-const List<Note> DUMMY_NOTES = [
+const List<Note> dummyNotes = [
   Note(
     id: 1,
     title: 'Quantum Physics Lecture Notes',
@@ -116,12 +116,12 @@ class Group {
   });
 }
 
-const List<Group> DUMMY_GROUPS = [
+const List<Group> dummyGroups = [
   Group(id: 1, name: 'Computer Science Study Group', subject: 'CS', members: 12),
   Group(id: 2, name: 'Physics Discussion Forum', subject: 'Physics', members: 8),
 ];
 
-const List<Map<int, List<ChatMessage>>> DUMMY_CHATS = [
+const List<Map<int, List<ChatMessage>>> dummyChats = [
   // Group 1 chats
   {
     1: [
@@ -182,7 +182,7 @@ class Job {
   });
 }
 
-const List<Job> DUMMY_JOBS = [
+const List<Job> dummyJobs = [
   Job(id: 1, title: 'Part-time Graphic Designer', pay: '₹8,000/month', location: 'Remote', type: 'Design', rating: 4.8),
   Job(id: 2, title: 'Math Tutor for Class 12', pay: '₹500/hr', location: 'On-campus', type: 'Tutoring', rating: 4.9),
   Job(id: 3, title: 'Content Writer', pay: '₹0.50/word', location: 'Remote', type: 'Writing', rating: 4.5),
@@ -230,7 +230,7 @@ class MessReview {
   });
 }
 
-const List<Mess> DUMMY_MESSES = [
+const List<Mess> dummyMesses = [
   Mess(
     id: 1,
     name: 'Green Leaf Mess',
@@ -314,7 +314,7 @@ class TiffinReview {
   });
 }
 
-const List<Tiffin> DUMMY_TIFFINS = [
+const List<Tiffin> dummyTiffins = [
   Tiffin(
     id: 1,
     name: 'Healthy Bite Tiffins',

@@ -3,7 +3,7 @@ import '../constants.dart';
 import '../widgets/app_icon.dart';
 
 class JobsScreen extends StatefulWidget {
-  const JobsScreen({Key? key}) : super(key: key);
+  const JobsScreen({super.key});
 
   @override
   State<JobsScreen> createState() => _JobsScreenState();
@@ -16,10 +16,9 @@ class _JobsScreenState extends State<JobsScreen> {
   List<String> selectedTypes = [];
 
   List<Job> get filtered {
-    var list = DUMMY_JOBS.where((j) => j.title.toLowerCase().contains(query.toLowerCase())).toList();
-    if (selectedTypes.isNotEmpty) {
+    var list = dummyJobs.where((j) => j.title.toLowerCase().contains(query.toLowerCase())).toList();
+    if (selectedTypes.isNotEmpty)
       list = list.where((j) => selectedTypes.contains(j.type)).toList();
-    }
     if (sortBy == 'highestpaying') {
       list.sort((a, b) => a.pay.compareTo(b.pay));
     } else if (sortBy == 'toprated') {
@@ -37,7 +36,7 @@ class _JobsScreenState extends State<JobsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final jobTypes = DUMMY_JOBS.map((j) => j.type).toSet().toList();
+    final jobTypes = dummyJobs.map((j) => j.type).toSet().toList();
     return Scaffold(
       appBar: AppBar(title: const Text('Find Gigs')),
       body: Column(children: [

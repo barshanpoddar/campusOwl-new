@@ -6,7 +6,7 @@ class GroupChatScreen extends StatefulWidget {
   final Group group;
   final VoidCallback onClose;
 
-  const GroupChatScreen({Key? key, required this.group, required this.onClose}) : super(key: key);
+  const GroupChatScreen({super.key, required this.group, required this.onClose});
 
   @override
   State<GroupChatScreen> createState() => _GroupChatScreenState();
@@ -19,8 +19,8 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
   @override
   void initState() {
     super.initState();
-    // DUMMY_CHATS is a list of maps; find the map for this group id
-    final map = DUMMY_CHATS.firstWhere((m) => m.containsKey(widget.group.id), orElse: () => {});
+    // dummyChats is a list of maps; find the map for this group id
+    final map = dummyChats.firstWhere((m) => m.containsKey(widget.group.id), orElse: () => {});
     _messages = List<ChatMessage>.from(map[widget.group.id] ?? []);
   }
 

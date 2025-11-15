@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../widgets/app_icon.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF0A3D91), // royal blue
-      body: Center(
+      body: const Center(
         // Use AppIcon to prefer an SVG asset named `owl.svg` (or fallback to Icon)
         child: AppIcon(assetName: 'owl', size: 120, color: Colors.white),
       ),

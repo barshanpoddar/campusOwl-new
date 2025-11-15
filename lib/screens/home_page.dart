@@ -4,7 +4,7 @@ import '../widgets/app_icon.dart';
 class HomePage extends StatelessWidget {
   final ValueChanged<int>? onSelectTab;
 
-  const HomePage({Key? key, this.onSelectTab}) : super(key: key);
+  const HomePage({super.key, this.onSelectTab});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class _Tile extends StatelessWidget {
   final String? asset;
   final VoidCallback? onTap;
 
-  const _Tile({Key? key, required this.title, required this.icon, this.asset, this.onTap}) : super(key: key);
+  const _Tile({required this.title, required this.icon, this.asset, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,7 @@ class _Tile extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 6)],
+          boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 6)],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

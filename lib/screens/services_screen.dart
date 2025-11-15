@@ -3,7 +3,7 @@ import '../constants.dart';
 import '../widgets/app_icon.dart';
 
 class ServicesScreen extends StatefulWidget {
-  const ServicesScreen({Key? key}) : super(key: key);
+  const ServicesScreen({super.key});
 
   @override
   State<ServicesScreen> createState() => _ServicesScreenState();
@@ -49,10 +49,10 @@ class _ServicesScreenState extends State<ServicesScreen> {
 
   Widget _buildMessList() {
     return ListView.separated(
-      itemCount: DUMMY_MESSES.length,
+      itemCount: dummyMesses.length,
       separatorBuilder: (_, __) => const SizedBox(height: 8),
       itemBuilder: (context, index) {
-        final m = DUMMY_MESSES[index];
+        final m = dummyMesses[index];
         return InkWell(
           onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => MessDetailScreen(mess: m))),
           child: Container(
@@ -73,10 +73,10 @@ class _ServicesScreenState extends State<ServicesScreen> {
 
   Widget _buildTiffinList() {
     return ListView.separated(
-      itemCount: DUMMY_TIFFINS.length,
+      itemCount: dummyTiffins.length,
       separatorBuilder: (_, __) => const SizedBox(height: 8),
       itemBuilder: (context, index) {
-        final t = DUMMY_TIFFINS[index];
+        final t = dummyTiffins[index];
         return InkWell(
           onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => TiffinDetailScreen(tiffin: t))),
           child: Container(
@@ -92,7 +92,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
 
 class MessDetailScreen extends StatelessWidget {
   final Mess mess;
-  const MessDetailScreen({Key? key, required this.mess}) : super(key: key);
+  const MessDetailScreen({super.key, required this.mess});
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +137,7 @@ class MessDetailScreen extends StatelessWidget {
 
 class TiffinDetailScreen extends StatelessWidget {
   final Tiffin tiffin;
-  const TiffinDetailScreen({Key? key, required this.tiffin}) : super(key: key);
+  const TiffinDetailScreen({super.key, required this.tiffin});
 
   @override
   Widget build(BuildContext context) {
