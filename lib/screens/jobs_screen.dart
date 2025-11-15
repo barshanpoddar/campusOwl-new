@@ -17,8 +17,9 @@ class _JobsScreenState extends State<JobsScreen> {
 
   List<Job> get filtered {
     var list = dummyJobs.where((j) => j.title.toLowerCase().contains(query.toLowerCase())).toList();
-    if (selectedTypes.isNotEmpty)
+    if (selectedTypes.isNotEmpty) {
       list = list.where((j) => selectedTypes.contains(j.type)).toList();
+    }
     if (sortBy == 'highestpaying') {
       list.sort((a, b) => a.pay.compareTo(b.pay));
     } else if (sortBy == 'toprated') {
@@ -29,8 +30,11 @@ class _JobsScreenState extends State<JobsScreen> {
 
   void _toggleType(String type) {
     setState(() {
-      if (selectedTypes.contains(type)) selectedTypes.remove(type);
-      else selectedTypes.add(type);
+      if (selectedTypes.contains(type)) {
+        selectedTypes.remove(type);
+      } else {
+        selectedTypes.add(type);
+      }
     });
   }
 

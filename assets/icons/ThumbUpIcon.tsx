@@ -1,9 +1,0 @@
-import React from 'react';
-
-const ThumbUpIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <path d="M2 20V10h3.42a4.015 4.015 0 0 1 3.86 3.11L10 18h7v-5.69a1 1 0 0 0-.6-.9L14.17 10H10V4a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v2h4a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7.38z" />
-  </svg>
-);
-
-export default ThumbUpIcon;

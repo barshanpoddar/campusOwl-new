@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         const Text(
                           'Hello, Student!',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                           ),
@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     // Theme toggle moved to main, but if needed
                     const CircleAvatar(
                       backgroundColor: Color(0xFFFACC15), // Yellow
-                      child: AppIcon(assetName: 'owl', icon: Icons.pets, color: Colors.black),
+                      child: AppIcon(assetName: 'Owl_icon', icon: Icons.pets, color: Colors.black),
                     ),
                   ],
                 ),
@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Text(
                         'You\'re on a $currentStreak day streak!',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                           color: Colors.orange,
@@ -125,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 // Recent Note
 const Text(
   'Recent Note',
-  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
 ),
                 const SizedBox(height: 8),
                 Container(
@@ -169,7 +169,7 @@ const Text(
                 // Featured Gig
                 const Text(
                   'Featured Gig',
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 8),
                 Container(
