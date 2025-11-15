@@ -49,78 +49,82 @@ class CustomTabBar extends StatelessWidget {
     final effectiveActiveColor = activeColor ?? theme.primaryColor;
     final effectiveInactiveColor = inactiveColor ?? Colors.grey.shade600;
     final effectiveIndicatorColor = indicatorColor ?? theme.primaryColor;
-    final effectivePadding =
-        padding ?? const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0);
 
     return Container(
       padding: const EdgeInsets.only(top: 8.0),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border(
-          bottom: BorderSide(
-            color: showDivider ? Colors.grey.shade200 : Colors.transparent,
-            width: 1,
-          ),
-        ),
       ),
-      child: Padding(
-        padding: effectivePadding,
-        child: Row(
-          children: tabs.asMap().entries.map((entry) {
-            final tab = entry.value;
-            final isActive = activeTabId == tab.id;
+      child: Column(
+        children: [
+          Row(
+            children: tabs.asMap().entries.map((entry) {
+              final tab = entry.value;
+              final isActive = activeTabId == tab.id;
 
-            return Expanded(
-              child: InkWell(
-                onTap: () => onTabChanged(tab.id),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: isActive
-                            ? effectiveIndicatorColor
-                            : Colors.transparent,
-                        width: indicatorHeight,
-                      ),
+              return Expanded(
+                child: InkWell(
+                  onTap: () => onTabChanged(tab.id),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (tab.icon != null) ...[
+                          Icon(
+                            tab.icon,
+                            size: 20,
+                            color: isActive
+                                ? effectiveActiveColor
+                                : effectiveInactiveColor,
+                          ),
+                          const SizedBox(width: 8),
+                        ],
+                        Text(
+                          tab.label,
+                          style: isActive
+                              ? (activeTextStyle ??
+                                  TextStyle(
+                                    color: effectiveActiveColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ))
+                              : (inactiveTextStyle ??
+                                  TextStyle(
+                                    color: effectiveInactiveColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  )),
+                        ),
+                      ],
                     ),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (tab.icon != null) ...[
-                        Icon(
-                          tab.icon,
-                          size: 20,
-                          color: isActive
-                              ? effectiveActiveColor
-                              : effectiveInactiveColor,
-                        ),
-                        const SizedBox(width: 8),
-                      ],
-                      Text(
-                        tab.label,
-                        style: isActive
-                            ? (activeTextStyle ??
-                                TextStyle(
-                                  color: effectiveActiveColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                ))
-                            : (inactiveTextStyle ??
-                                TextStyle(
-                                  color: effectiveInactiveColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                )),
-                      ),
-                    ],
-                  ),
                 ),
-              ),
-            );
-          }).toList(),
-        ),
+              );
+            }).toList(),
+          ),
+          // Indicator row - each indicator takes full width of its tab
+          Row(
+            children: tabs.asMap().entries.map((entry) {
+              final tab = entry.value;
+              final isActive = activeTabId == tab.id;
+
+              return Expanded(
+                child: Container(
+                  height: indicatorHeight,
+                  color: isActive ? effectiveIndicatorColor : Colors.transparent,
+                ),
+              );
+            }).toList(),
+          ),
+          // Divider
+          if (showDivider)
+            Container(
+              height: 1,
+              color: Colors.grey.shade200,
+            ),
+        ],
       ),
     );
   }
