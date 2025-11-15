@@ -243,15 +243,6 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
           ],
         ),
       ),
-      floatingActionButton: CustomFabButton(
-        key: _fabKey,
-        icon: Icons.attach_file,
-        label: 'Attach',
-        onPressed: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Attach feature not implemented')));
-        },
-      ),
     );
   }
 }
