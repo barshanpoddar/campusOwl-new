@@ -8,6 +8,7 @@ import 'screens/jobs_screen.dart';
 import 'screens/focus_screen.dart';
 import 'widgets/custom_fab_button.dart';
 import 'widgets/bottom_navigation.dart';
+import 'widgets/custom_alert_dialog.dart';
 import 'themes.dart';
 import 'providers/theme_provider.dart';
 import 'screens/splash_screen.dart';
@@ -82,34 +83,56 @@ class _MainPageState extends State<MainPage> {
     super.dispose();
   }
 
+  Future<bool> _showExitConfirmation() async {
+    return await CustomAlertDialog.showConfirmation(
+      context: context,
+      title: 'Exit App',
+      message: 'Are you sure you want to exit CampusOwl?',
+      confirmText: 'Exit',
+      cancelText: 'Cancel',
+      confirmButtonColor: Colors.red,
+      icon: Icons.exit_to_app,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // Use IndexedStack to keep off-screen widgets alive and make switching instant.
-      body: SafeArea(
-        // Use a PageView and animate between pages for a short, snappy transition.
-        child: PageView(
-          controller: _pageController,
-          physics: const NeverScrollableScrollPhysics(),
-          onPageChanged: (index) => setState(() => _selectedIndex = index),
-          children: _screens,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+        final shouldPop = await _showExitConfirmation();
+        if (shouldPop && context.mounted) {
+          Navigator.of(context).pop();
+        }
+      },
+      child: Scaffold(
+        // Use IndexedStack to keep off-screen widgets alive and make switching instant.
+        body: SafeArea(
+          // Use a PageView and animate between pages for a short, snappy transition.
+          child: PageView(
+            controller: _pageController,
+            physics: const NeverScrollableScrollPhysics(),
+            onPageChanged: (index) => setState(() => _selectedIndex = index),
+            children: _screens,
+          ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigation(
-        currentIndex: _selectedIndex,
-        onTap: (index) {
-          // collapse any open FABs in screens before switching
-          _notesFabKey.currentState?.collapse();
-          _servicesFabKey.currentState?.collapse();
-          // Update selected index immediately for visual feedback on the nav,
-          // then animate the page change with a short duration so the app feels snappy.
-          setState(() => _selectedIndex = index);
-          _pageController.animateToPage(
-            index,
-            duration: const Duration(milliseconds: 250),
-            curve: Curves.easeInOutCubic,
-          );
-        },
+        bottomNavigationBar: BottomNavigation(
+          currentIndex: _selectedIndex,
+          onTap: (index) {
+            // collapse any open FABs in screens before switching
+            _notesFabKey.currentState?.collapse();
+            _servicesFabKey.currentState?.collapse();
+            // Update selected index immediately for visual feedback on the nav,
+            // then animate the page change with a short duration so the app feels snappy.
+            setState(() => _selectedIndex = index);
+            _pageController.animateToPage(
+              index,
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeInOutCubic,
+            );
+          },
+        ),
       ),
     );
   }
