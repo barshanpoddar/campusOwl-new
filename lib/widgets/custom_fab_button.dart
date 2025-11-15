@@ -66,7 +66,7 @@ class CustomFabButtonState extends State<CustomFabButton>
     return AnimatedSize(
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
-      child: Container(
+      child: SizedBox(
         height: 56,
         width: isExpanded ? 200 : 56, // Adjust width for expanded state
         child: ElevatedButton(

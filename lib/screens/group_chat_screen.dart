@@ -289,7 +289,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
                             elevation: 0,
                             shadowColor: Colors.transparent,
                           ),
-                          child: AppIcon(
+                          child: const AppIcon(
                             assetName: 'paper_airplane',
                             icon: Icons.send,
                             color: Colors.white,

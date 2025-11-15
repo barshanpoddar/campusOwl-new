@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 // home_screen.dart exists (detailed home content); top-level landing page uses `home_page.dart`
 import 'screens/home_screen.dart';
@@ -55,17 +56,19 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   int _selectedIndex = 0;
   late final List<Widget> _screens;
   late final PageController _pageController;
   // Keys to control FABs inside specific screens so we can collapse them when switching tabs
   final GlobalKey<CustomFabButtonState> _notesFabKey = GlobalKey<CustomFabButtonState>();
   final GlobalKey<CustomFabButtonState> _servicesFabKey = GlobalKey<CustomFabButtonState>();
+  DateTime? _pausedTime;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     // Create screens once to avoid rebuilding heavy widgets on each tab change.
     _screens = [
       const HomeScreen(),
@@ -79,8 +82,27 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _pageController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    
+    if (state == AppLifecycleState.paused || state == AppLifecycleState.detached) {
+      // App is going to background or being closed
+      _pausedTime = DateTime.now();
+    } else if (state == AppLifecycleState.resumed) {
+      // App is coming back to foreground
+      if (_pausedTime != null) {
+        // If app was closed/backgrounded, restart from splash screen
+        if (mounted) {
+          Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+        }
+      }
+    }
   }
 
   Future<bool> _showExitConfirmation() async {
@@ -103,7 +125,8 @@ class _MainPageState extends State<MainPage> {
         if (didPop) return;
         final shouldPop = await _showExitConfirmation();
         if (shouldPop && context.mounted) {
-          Navigator.of(context).pop();
+          // Exit the app completely
+          SystemNavigator.pop();
         }
       },
       child: Scaffold(
