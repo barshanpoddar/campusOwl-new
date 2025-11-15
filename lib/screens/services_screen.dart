@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../widgets/app_icon.dart';
 import '../widgets/custom_fab_button.dart';
+import '../widgets/custom_tab_bar.dart';
 
 class ServicesScreen extends StatefulWidget {
   final GlobalKey<CustomFabButtonState>? fabKey;
@@ -14,44 +15,37 @@ class ServicesScreen extends StatefulWidget {
 
 class _ServicesScreenState extends State<ServicesScreen> {
   String activeTab = 'mess';
-  late final GlobalKey<CustomFabButtonState> _fabKey = widget.fabKey ?? GlobalKey<CustomFabButtonState>();
+  late final GlobalKey<CustomFabButtonState> _fabKey =
+      widget.fabKey ?? GlobalKey<CustomFabButtonState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Services')),
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () => _fabKey.currentState?.collapse(),
         child: Column(
-        children: [
-          Row(children: [
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  _fabKey.currentState?.collapse();
-                  setState(() => activeTab = 'mess');
-                },
-                child: Text('Mess', style: TextStyle(color: activeTab == 'mess' ? Theme.of(context).primaryColor : Colors.grey)),
-              ),
+          children: [
+            // Custom tab bar for Mess / Tiffin
+            CustomTabBar(
+              tabs: const [
+                CustomTabItem(id: 'mess', label: 'Mess'),
+                CustomTabItem(id: 'tiffin', label: 'Tiffin'),
+              ],
+              activeTabId: activeTab,
+              onTabChanged: (tabId) {
+                _fabKey.currentState?.collapse();
+                setState(() => activeTab = tabId);
+              },
             ),
             Expanded(
-              child: TextButton(
-                onPressed: () {
-                  _fabKey.currentState?.collapse();
-                  setState(() => activeTab = 'tiffin');
-                },
-                child: Text('Tiffin', style: TextStyle(color: activeTab == 'tiffin' ? Theme.of(context).primaryColor : Colors.grey)),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child:
+                    activeTab == 'mess' ? _buildMessList() : _buildTiffinList(),
               ),
             ),
-          ]),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: activeTab == 'mess' ? _buildMessList() : _buildTiffinList(),
-            ),
-          ),
-        ],
+          ],
         ),
       ),
       floatingActionButton: CustomFabButton(
@@ -71,15 +65,34 @@ class _ServicesScreenState extends State<ServicesScreen> {
       itemBuilder: (context, index) {
         final m = dummyMesses[index];
         return InkWell(
-          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => MessDetailScreen(mess: m))),
+          onTap: () => Navigator.push(context,
+              MaterialPageRoute(builder: (_) => MessDetailScreen(mess: m))),
           child: Container(
             padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 4)]),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: const [
+                  BoxShadow(color: Colors.black12, blurRadius: 4)
+                ]),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(m.name, style: const TextStyle(fontWeight: FontWeight.bold)), Text(m.cuisine, style: TextStyle(color: Colors.grey[600]))]),
-                Column(children: [Row(children: [const AppIcon(assetName: 'star', icon: Icons.star, color: Colors.yellow), Text(m.rating.toStringAsFixed(1))]), Text(m.distance)]),
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text(m.name,
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  Text(m.cuisine, style: TextStyle(color: Colors.grey[600]))
+                ]),
+                Column(children: [
+                  Row(children: [
+                    const AppIcon(
+                        assetName: 'star',
+                        icon: Icons.star,
+                        color: Colors.yellow),
+                    Text(m.rating.toStringAsFixed(1))
+                  ]),
+                  Text(m.distance)
+                ]),
               ],
             ),
           ),
@@ -95,11 +108,39 @@ class _ServicesScreenState extends State<ServicesScreen> {
       itemBuilder: (context, index) {
         final t = dummyTiffins[index];
         return InkWell(
-          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => TiffinDetailScreen(tiffin: t))),
+          onTap: () => Navigator.push(context,
+              MaterialPageRoute(builder: (_) => TiffinDetailScreen(tiffin: t))),
           child: Container(
             padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 4)]),
-            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(t.name, style: const TextStyle(fontWeight: FontWeight.bold)), Text(t.cuisine, style: TextStyle(color: Colors.grey[600]))]), Column(children: [Row(children: [const AppIcon(assetName: 'star', icon: Icons.star, color: Colors.yellow), Text(t.rating.toStringAsFixed(1))]), Text(t.distance)])]),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: const [
+                  BoxShadow(color: Colors.black12, blurRadius: 4)
+                ]),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(t.name,
+                            style:
+                                const TextStyle(fontWeight: FontWeight.bold)),
+                        Text(t.cuisine,
+                            style: TextStyle(color: Colors.grey[600]))
+                      ]),
+                  Column(children: [
+                    Row(children: [
+                      const AppIcon(
+                          assetName: 'star',
+                          icon: Icons.star,
+                          color: Colors.yellow),
+                      Text(t.rating.toStringAsFixed(1))
+                    ]),
+                    Text(t.distance)
+                  ])
+                ]),
           ),
         );
       },
@@ -113,13 +154,14 @@ class MessDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  // menu days available in mess.menu
+    // menu days available in mess.menu
     return Scaffold(
       appBar: AppBar(title: Text(mess.name)),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(12),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             SizedBox(
               height: 180,
               child: ListView.builder(
@@ -127,24 +169,42 @@ class MessDetailScreen extends StatelessWidget {
                 itemCount: mess.images.length,
                 itemBuilder: (context, index) => Padding(
                   padding: const EdgeInsets.only(right: 8.0),
-                  child: Image.network(mess.images[index], width: MediaQuery.of(context).size.width - 60, fit: BoxFit.cover),
+                  child: Image.network(mess.images[index],
+                      width: MediaQuery.of(context).size.width - 60,
+                      fit: BoxFit.cover),
                 ),
               ),
             ),
             const SizedBox(height: 12),
             Text(mess.cuisine, style: TextStyle(color: Colors.grey[600])),
             const SizedBox(height: 8),
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [Text(mess.rating.toStringAsFixed(1)), Text(mess.distance)]),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Text(mess.rating.toStringAsFixed(1)),
+              Text(mess.distance)
+            ]),
             const SizedBox(height: 12),
             Text(mess.description),
             const SizedBox(height: 12),
-            const Text('Weekly Menu', style: TextStyle(fontWeight: FontWeight.bold)),
+            const Text('Weekly Menu',
+                style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
-            ...mess.menu.entries.take(3).map((e) => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(e.key, style: const TextStyle(fontWeight: FontWeight.w600)), const SizedBox(height: 4), Text('Lunch: ${e.value['Lunch']?.join(', ')}'), Text('Dinner: ${e.value['Dinner']?.join(', ')}'), const SizedBox(height: 8)])),
+            ...mess.menu.entries.take(3).map((e) =>
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text(e.key,
+                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                  const SizedBox(height: 4),
+                  Text('Lunch: ${e.value['Lunch']?.join(', ')}'),
+                  Text('Dinner: ${e.value['Dinner']?.join(', ')}'),
+                  const SizedBox(height: 8)
+                ])),
             const SizedBox(height: 12),
-            const Text('Reviews', style: TextStyle(fontWeight: FontWeight.bold)),
+            const Text('Reviews',
+                style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
-            ...mess.reviews.map((r) => ListTile(title: Text(r.author), subtitle: Text(r.comment), trailing: Text(r.rating.toString()))),
+            ...mess.reviews.map((r) => ListTile(
+                title: Text(r.author),
+                subtitle: Text(r.comment),
+                trailing: Text(r.rating.toString()))),
           ]),
         ),
       ),
@@ -163,20 +223,34 @@ class TiffinDetailScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(12),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            SizedBox(height: 140, child: ListView.builder(scrollDirection: Axis.horizontal, itemCount: tiffin.images.length, itemBuilder: (context, i) => Padding(padding: const EdgeInsets.only(right: 8.0), child: Image.network(tiffin.images[i], width: MediaQuery.of(context).size.width - 60, fit: BoxFit.cover)))),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            SizedBox(
+                height: 140,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: tiffin.images.length,
+                    itemBuilder: (context, i) => Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Image.network(tiffin.images[i],
+                            width: MediaQuery.of(context).size.width - 60,
+                            fit: BoxFit.cover)))),
             const SizedBox(height: 12),
             Text(tiffin.cuisine, style: TextStyle(color: Colors.grey[600])),
             const SizedBox(height: 8),
             Text(tiffin.description),
             const SizedBox(height: 12),
-            const Text('How it works', style: TextStyle(fontWeight: FontWeight.bold)),
+            const Text('How it works',
+                style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
-            ...tiffin.howItWorks.map((s) => Padding(padding: const EdgeInsets.symmetric(vertical: 4.0), child: Text('• $s'))),
+            ...tiffin.howItWorks.map((s) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                child: Text('• $s'))),
             const SizedBox(height: 12),
             const Text('Plans', style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
-            ...tiffin.plans.map((p) => ListTile(title: Text(p['name']), trailing: Text(p['price']))),
+            ...tiffin.plans.map((p) =>
+                ListTile(title: Text(p['name']), trailing: Text(p['price']))),
           ]),
         ),
       ),
