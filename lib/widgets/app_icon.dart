@@ -24,29 +24,31 @@ class AppIcon extends StatelessWidget {
 
     final svgPath = 'assets/icons/$assetName.svg';
     final pngPath = 'assets/icons/$assetName.png';
+    // If we have a cached result, use it synchronously to avoid flicker when
+    // theme changes (FutureBuilder would briefly show the fallback Icon while
+    // waiting for the future). If the cache has no entry yet, trigger the
+    // async lookup but render an empty fixed-size box to keep layout stable
+    // and avoid showing the placeholder icon.
+    final cached = _assetCache[svgPath];
+    if (_assetCache.containsKey(svgPath)) {
+      final path = cached;
+      if (path == null) return Icon(icon ?? Icons.circle, size: size, color: color);
+      if (path.endsWith('.svg')) {
+        return SvgPicture.asset(path,
+            width: size,
+            height: size,
+            colorFilter:
+                ColorFilter.mode(color ?? Colors.black, BlendMode.srcIn));
+      }
+      return Image.asset(path, width: size, height: size, color: color);
+    }
 
-    return FutureBuilder<String?>(
-      future: _findExistingAsset(svgPath, pngPath),
-      builder: (context, snap) {
-        if (snap.connectionState == ConnectionState.done) {
-          final path = snap.data;
-          if (path == null)
-            return Icon(icon ?? Icons.circle, size: size, color: color);
-          if (path.endsWith('.svg')) {
-            return SvgPicture.asset(path,
-                width: size,
-                height: size,
-                colorFilter:
-                    ColorFilter.mode(color ?? Colors.black, BlendMode.srcIn));
-          }
-          return Image.asset(path, width: size, height: size, color: color);
-        }
-
-        // Show a synchronous fallback icon while resolving the asset so buttons
-        // and other controls don't appear empty while the async lookup runs.
-        return Icon(icon ?? Icons.circle, size: size, color: color);
-      },
-    );
+    // Not cached: start async lookup but don't show the fallback icon to avoid
+    // the 'box placeholder' flash during theme toggles. Use a SizedBox to keep
+    // layout consistent. The lookup will populate the cache for subsequent
+    // builds.
+    _findExistingAsset(svgPath, pngPath);
+    return SizedBox(width: size, height: size);
   }
 
   // Cache asset existence lookups to avoid repeated rootBundle.load calls which
