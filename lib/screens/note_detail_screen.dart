@@ -101,8 +101,8 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
               ],
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
                 _buildActionButton(
                   icon: Icons.summarize,
                   label: 'Summarize',
@@ -141,40 +141,39 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             // circular icon background (same for all options)
             Container(
-              width: 50,
-              height: 50,
+              width: 44,
+              height: 44,
               decoration: BoxDecoration(
                 color: theme.primaryColor.withValues(alpha: 0.12),
                 shape: BoxShape.circle,
               ),
               child: Center(
                 child: _loading
-                    ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
+                    ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
                     : AppIcon(
                         assetName: _assetNameForIcon(icon),
                         icon: icon,
-                        size: 24,
+                        size: 20,
                         color: theme.primaryColor,
                       ),
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 6),
             Text(
               label,
               style: TextStyle(
-                fontSize: 12,
+                fontSize: 11,
                 fontWeight: FontWeight.w600,
                 color: Colors.grey[800],
               ),
             ),
-            const SizedBox(height: 6),
-            const SizedBox(height: 6),
+            const SizedBox(height: 4),
           ],
         ),
       ),
