@@ -86,31 +86,89 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
               ),
             ),
           ),
+          // Action buttons bar at the bottom
           Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(border: Border(top: BorderSide(color: Colors.grey.shade200))),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border(top: BorderSide(color: Colors.grey.shade200)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.05),
+                  blurRadius: 8,
+                  offset: const Offset(0, -2),
+                ),
+              ],
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ElevatedButton.icon(
-                  onPressed: _loading ? null : () => _simulateAi('summarize'),
-                  icon: _loading ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2)) : const AppIcon(assetName: 'book_open', icon: Icons.description),
-                  label: const Text('Summarize'),
+                _buildActionButton(
+                  icon: Icons.summarize,
+                  label: 'Summarize',
+                  onTap: _loading ? null : () => _simulateAi('summarize'),
+                  isActive: false,
                 ),
-                ElevatedButton.icon(
-                  onPressed: _loading ? null : () => _simulateAi('explain'),
-                  icon: const AppIcon(assetName: 'question_mark_circle', icon: Icons.help_outline),
-                  label: const Text('Explain'),
+                _buildActionButton(
+                  icon: Icons.help_outline,
+                  label: 'Explain',
+                  onTap: _loading ? null : () => _simulateAi('explain'),
+                  isActive: true,
                 ),
-                ElevatedButton.icon(
-                  onPressed: _loading ? null : () => _simulateAi('keyPoints'),
-                  icon: const AppIcon(assetName: 'list_bullet', icon: Icons.list),
-                  label: const Text('Key Points'),
+                _buildActionButton(
+                  icon: Icons.format_list_bulleted,
+                  label: 'Key Points',
+                  onTap: _loading ? null : () => _simulateAi('keyPoints'),
+                  isActive: false,
                 ),
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildActionButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback? onTap,
+    required bool isActive,
+  }) {
+    final theme = Theme.of(context);
+    final color = isActive ? theme.primaryColor : Colors.grey[600];
+    
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (_loading)
+              const SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
+            else
+              Icon(
+                icon,
+                size: 24,
+                color: color,
+              ),
+            const SizedBox(height: 6),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
+                color: color,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
