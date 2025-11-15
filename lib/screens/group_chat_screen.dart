@@ -1,0 +1,100 @@
+import 'package:flutter/material.dart';
+import '../constants.dart';
+import '../widgets/app_icon.dart';
+
+class GroupChatScreen extends StatefulWidget {
+  final Group group;
+  final VoidCallback onClose;
+
+  const GroupChatScreen({Key? key, required this.group, required this.onClose}) : super(key: key);
+
+  @override
+  State<GroupChatScreen> createState() => _GroupChatScreenState();
+}
+
+class _GroupChatScreenState extends State<GroupChatScreen> {
+  final TextEditingController _controller = TextEditingController();
+  late List<ChatMessage> _messages;
+
+  @override
+  void initState() {
+    super.initState();
+    // DUMMY_CHATS is a list of maps; find the map for this group id
+    final map = DUMMY_CHATS.firstWhere((m) => m.containsKey(widget.group.id), orElse: () => {});
+    _messages = List<ChatMessage>.from(map[widget.group.id] ?? []);
+  }
+
+  void _send() {
+    final text = _controller.text.trim();
+    if (text.isEmpty) return;
+    final msg = ChatMessage(id: DateTime.now().millisecondsSinceEpoch, sender: 'You', text: text, time: TimeOfDay.now().format(context), isRead: true);
+    setState(() {
+      _messages.add(msg);
+      _controller.clear();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(icon: const AppIcon(assetName: 'arrow_left', icon: Icons.arrow_back), onPressed: widget.onClose),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [Text(widget.group.name), Text('${widget.group.members} members', style: const TextStyle(fontSize: 12))],
+        ),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(12),
+              itemCount: _messages.length,
+              itemBuilder: (context, index) {
+                final m = _messages[index];
+                final isMe = m.sender == 'You';
+                return Align(
+                  alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 6),
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: isMe ? Theme.of(context).primaryColor : Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 2)],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (!isMe) Text(m.sender, style: const TextStyle(fontWeight: FontWeight.bold)),
+                        const SizedBox(height: 4),
+                        Text(m.text, style: TextStyle(color: isMe ? Colors.white : Colors.black87)),
+                        const SizedBox(height: 6),
+                        Row(mainAxisSize: MainAxisSize.min, children: [Text(m.time, style: TextStyle(fontSize: 11, color: isMe ? Colors.white70 : Colors.grey))]),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(border: Border(top: BorderSide(color: Colors.grey.shade200))),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _controller,
+                    decoration: const InputDecoration.collapsed(hintText: 'Type a message...'),
+                  ),
+                ),
+                IconButton(onPressed: _send, icon: AppIcon(assetName: 'paper_airplane', icon: Icons.send, color: Theme.of(context).primaryColor), color: Theme.of(context).primaryColor),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
