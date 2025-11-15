@@ -117,17 +117,37 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     );
   }
 
+  Future<void> _handleBackNavigation() async {
+    // Check if there are any pushed routes (like note detail or group chat)
+    final canPop = Navigator.of(context).canPop();
+    
+    if (canPop) {
+      // If there are routes to pop (e.g., note detail screen), just pop them
+      Navigator.of(context).pop();
+    } else if (_selectedIndex != 0) {
+      // If on any tab other than home (index 0), navigate to home tab
+      setState(() => _selectedIndex = 0);
+      _pageController.animateToPage(
+        0,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeInOutCubic,
+      );
+    } else {
+      // Already on home tab with no routes to pop, show exit confirmation
+      final shouldExit = await _showExitConfirmation();
+      if (shouldExit && context.mounted) {
+        SystemNavigator.pop();
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop) return;
-        final shouldPop = await _showExitConfirmation();
-        if (shouldPop && context.mounted) {
-          // Exit the app completely
-          SystemNavigator.pop();
-        }
+        await _handleBackNavigation();
       },
       child: Scaffold(
         // Use IndexedStack to keep off-screen widgets alive and make switching instant.

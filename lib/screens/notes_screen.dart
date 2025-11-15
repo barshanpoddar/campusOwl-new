@@ -16,19 +16,12 @@ class NotesScreen extends StatefulWidget {
 
 class _NotesScreenState extends State<NotesScreen> {
   String activeTab = 'notes';
-  Note? _selectedNote;
   // use widget.fabKey if provided (allows parent to control FAB), otherwise private key
   late final GlobalKey<CustomFabButtonState> _fabKey =
       widget.fabKey ?? GlobalKey<CustomFabButtonState>();
 
   @override
   Widget build(BuildContext context) {
-    if (_selectedNote != null) {
-      return NoteDetailScreen(
-          note: _selectedNote!,
-          onClose: () => setState(() => _selectedNote = null));
-    }
-
     return Scaffold(
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -74,7 +67,15 @@ class _NotesScreenState extends State<NotesScreen> {
       itemBuilder: (context, index) {
         final note = dummyNotes[index];
         return InkWell(
-          onTap: () => setState(() => _selectedNote = note),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => NoteDetailScreen(
+                note: note,
+                onClose: () => Navigator.pop(context),
+              ),
+            ),
+          ),
           child: Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
