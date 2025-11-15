@@ -57,6 +57,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
       floatingActionButton: CustomFabButton(
         key: _fabKey,
         icon: Icons.add,
+        svgAsset: 'assets/icons/add.svg',
         label: 'Add Service',
         onPressed: () {},
       ),

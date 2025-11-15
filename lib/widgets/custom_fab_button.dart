@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomFabButton extends StatefulWidget {
   final IconData icon;
+  final String? svgAsset;
   final String label;
   final VoidCallback onPressed;
   final Color backgroundColor;
@@ -10,6 +12,7 @@ class CustomFabButton extends StatefulWidget {
   const CustomFabButton({
     super.key,
     required this.icon,
+    this.svgAsset,
     required this.label,
     required this.onPressed,
     this.backgroundColor = const Color(0xFF2563EB),
@@ -85,7 +88,16 @@ class CustomFabButtonState extends State<CustomFabButton>
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(widget.icon, size: 20),
+                    // If an SVG asset is provided prefer it (tintable). Otherwise fall back to Icon.
+                    if (widget.svgAsset != null)
+                      SvgPicture.asset(
+                        widget.svgAsset!,
+                        width: 20,
+                        height: 20,
+                        colorFilter: ColorFilter.mode(widget.foregroundColor, BlendMode.srcIn),
+                      )
+                    else
+                      Icon(widget.icon, size: 20),
                     SizedBox(width: _animation.value * 8), // Spacing animation
                     if (_animation.value > 0.5)
                       Text(

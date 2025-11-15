@@ -124,6 +124,7 @@ class _NotesScreenState extends State<NotesScreen> {
       floatingActionButton: CustomFabButton(
         key: _fabKey,
         icon: Icons.add,
+        svgAsset: 'assets/icons/add.svg',
         label: activeTab == 'notes' ? 'New Note' : 'New Group',
         onPressed: () {},
       ),
