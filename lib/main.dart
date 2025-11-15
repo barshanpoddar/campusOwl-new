@@ -55,19 +55,31 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
+  late final List<Widget> _screens;
 
   @override
-  Widget build(BuildContext context) {
-    final screens = [
+  void initState() {
+    super.initState();
+    // Create screens once to avoid rebuilding heavy widgets on each tab change.
+    _screens = [
       const HomeScreen(),
       const NotesScreen(),
       const ServicesScreen(),
       const JobsScreen(),
       const FocusScreen(),
     ];
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: screens[_selectedIndex]),
+      // Use IndexedStack to keep off-screen widgets alive and make switching instant.
+      body: SafeArea(
+        child: IndexedStack(
+          index: _selectedIndex,
+          children: _screens,
+        ),
+      ),
       bottomNavigationBar: BottomNavigation(
         currentIndex: _selectedIndex,
         onTap: (index) => setState(() => _selectedIndex = index),

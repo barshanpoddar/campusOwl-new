@@ -15,6 +15,7 @@ class GroupChatScreen extends StatefulWidget {
 class _GroupChatScreenState extends State<GroupChatScreen> {
   final TextEditingController _controller = TextEditingController();
   late List<ChatMessage> _messages;
+  OverlayEntry? _menuEntry;
 
   @override
   void initState() {
@@ -22,6 +23,76 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
     // dummyChats is a list of maps; find the map for this group id
     final map = dummyChats.firstWhere((m) => m.containsKey(widget.group.id), orElse: () => {});
     _messages = List<ChatMessage>.from(map[widget.group.id] ?? []);
+  }
+
+  void _showCustomMenu(Offset globalPosition) {
+    // remove any existing
+    _hideCustomMenu();
+
+  final overlay = Overlay.of(context);
+
+    final RenderBox overlayBox = overlay.context.findRenderObject() as RenderBox;
+    final local = overlayBox.globalToLocal(globalPosition);
+
+    _menuEntry = OverlayEntry(
+      builder: (context) {
+        return GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: _hideCustomMenu,
+          child: Stack(
+            children: [
+              Positioned(
+                top: local.dy + 8,
+                left: local.dx - 120,
+                child: Container(
+                  width: 200,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 8)],
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _menuItem('View members', () {
+                        _hideCustomMenu();
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('View members (not implemented)')));
+                      }),
+                      _menuItem('Mute', () {
+                        _hideCustomMenu();
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Chat muted (not implemented)')));
+                      }),
+                      _menuItem('Leave group', () {
+                        _hideCustomMenu();
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Left group (not implemented)')));
+                      }),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    overlay.insert(_menuEntry!);
+  }
+
+  void _hideCustomMenu() {
+    _menuEntry?.remove();
+    _menuEntry = null;
+  }
+
+  Widget _menuItem(String text, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        alignment: Alignment.centerLeft,
+        child: Text(text, style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color)),
+      ),
+    );
   }
 
   void _send() {
@@ -43,6 +114,34 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [Text(widget.group.name), Text('${widget.group.members} members', style: const TextStyle(fontSize: 12))],
         ),
+        actions: [
+          // Custom three-dot menu trigger (no Material icons)
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTapDown: (details) => _showCustomMenu(details.globalPosition),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // three stacked dots
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: List.generate(3, (i) => Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 2),
+                      width: 6,
+                      height: 6,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).appBarTheme.foregroundColor ?? Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                    )),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
       body: Column(
         children: [

@@ -42,17 +42,27 @@ class AppIcon extends StatelessWidget {
     );
   }
 
+  // Cache asset existence lookups to avoid repeated rootBundle.load calls which
+  // can be slow when many icons are built repeatedly.
+  static final Map<String, String?> _assetCache = {};
+
   Future<String?> _findExistingAsset(String svg, String png) async {
+    final key = svg; // svg path is unique per assetName
+    if (_assetCache.containsKey(key)) return _assetCache[key];
+
     try {
       await rootBundle.load(svg);
+      _assetCache[key] = svg;
       return svg;
     } catch (_) {
       // ignore
     }
     try {
       await rootBundle.load(png);
+      _assetCache[key] = png;
       return png;
     } catch (_) {
+      _assetCache[key] = null;
       return null;
     }
   }
