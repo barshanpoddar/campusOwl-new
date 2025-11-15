@@ -3,6 +3,7 @@ import '../constants.dart';
 import 'note_detail_screen.dart';
 import 'group_chat_screen.dart';
 import '../widgets/custom_fab_button.dart';
+import '../widgets/custom_tab_bar.dart';
 
 class NotesScreen extends StatefulWidget {
   final GlobalKey<CustomFabButtonState>? fabKey;
@@ -14,6 +15,7 @@ class NotesScreen extends StatefulWidget {
 }
 
 class _NotesScreenState extends State<NotesScreen> {
+  String activeTab = 'notes';
   Note? _selectedNote;
   Group? _selectedGroup;
   // use widget.fabKey if provided (allows parent to control FAB), otherwise private key
@@ -38,16 +40,35 @@ class _NotesScreenState extends State<NotesScreen> {
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () => _fabKey.currentState?.collapse(),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: _buildNotesList(),
+        child: Column(
+          children: [
+            CustomTabBar(
+              tabs: const [
+                CustomTabItem(id: 'notes', label: 'My Notes'),
+                CustomTabItem(id: 'groups', label: 'Groups'),
+              ],
+              activeTabId: activeTab,
+              onTabChanged: (tabId) {
+                _fabKey.currentState?.collapse();
+                setState(() => activeTab = tabId);
+              },
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: activeTab == 'notes'
+                    ? _buildNotesList()
+                    : _buildGroupsList(),
+              ),
+            ),
+          ],
         ),
       ),
       floatingActionButton: CustomFabButton(
         key: _fabKey,
         icon: Icons.add,
         svgAsset: 'assets/icons/add.svg',
-        label: 'New Note',
+        label: activeTab == 'notes' ? 'New Note' : 'New Group',
         onPressed: () {},
       ),
     );
