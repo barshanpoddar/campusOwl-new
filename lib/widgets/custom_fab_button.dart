@@ -83,29 +83,34 @@ class CustomFabButtonState extends State<CustomFabButton>
           child: AnimatedBuilder(
             animation: _animation,
             builder: (context, child) {
-              return Opacity(
-                opacity: _animation.value,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // If an SVG asset is provided prefer it (tintable). Otherwise fall back to Icon.
-                    if (widget.svgAsset != null)
-                      SvgPicture.asset(
-                        widget.svgAsset!,
-                        width: 20,
-                        height: 20,
-                        colorFilter: ColorFilter.mode(widget.foregroundColor, BlendMode.srcIn),
-                      )
-                    else
-                      Icon(widget.icon, size: 20),
-                    SizedBox(width: _animation.value * 8), // Spacing animation
-                    if (_animation.value > 0.5)
-                      Text(
-                        widget.label,
-                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                      ),
-                  ],
-                ),
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Icon (always visible)
+                  if (widget.svgAsset != null)
+                    SvgPicture.asset(
+                      widget.svgAsset!,
+                      width: 20,
+                      height: 20,
+                      colorFilter: ColorFilter.mode(widget.foregroundColor, BlendMode.srcIn),
+                    )
+                  else
+                    Icon(widget.icon, size: 20),
+
+                  // animated spacing between icon and label
+                  SizedBox(width: _animation.value * 8 + 6),
+
+                  // label fades in/out based on animation value
+                  Opacity(
+                    opacity: _animation.value,
+                    child: _animation.value > 0.01
+                        ? Text(
+                            widget.label,
+                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                          )
+                        : const SizedBox.shrink(),
+                  ),
+                ],
               );
             },
           ),
