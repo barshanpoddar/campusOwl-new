@@ -136,40 +136,58 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
     required bool isActive,
   }) {
     final theme = Theme.of(context);
-    final color = isActive ? theme.primaryColor : Colors.grey[600];
-    
+
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (_loading)
-              const SizedBox(
-                width: 24,
-                height: 24,
-                child: CircularProgressIndicator(strokeWidth: 2),
-              )
-            else
-              Icon(
-                icon,
-                size: 24,
-                color: color,
+            // circular icon background (same for all options)
+            Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                color: theme.primaryColor.withValues(alpha: 0.12),
+                shape: BoxShape.circle,
               ),
-            const SizedBox(height: 6),
+              child: Center(
+                child: _loading
+                    ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
+                    : AppIcon(
+                        assetName: _assetNameForIcon(icon),
+                        icon: icon,
+                        size: 24,
+                        color: theme.primaryColor,
+                      ),
+              ),
+            ),
+            const SizedBox(height: 10),
             Text(
               label,
               style: TextStyle(
                 fontSize: 12,
-                fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
-                color: color,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey[800],
               ),
             ),
+            const SizedBox(height: 6),
+            const SizedBox(height: 6),
           ],
         ),
       ),
     );
+  }
+
+  // Map IconData choices to local asset names when available.
+  String? _assetNameForIcon(IconData icon) {
+    // Prefer SVG asset names that exist in assets/icons/
+    if (icon == Icons.summarize || icon == Icons.description) return 'book_open';
+    if (icon == Icons.help_outline || icon == Icons.question_mark) return 'document_text';
+    if (icon == Icons.format_list_bulleted || icon == Icons.list) return 'list_bullet';
+    // fallback - try common names
+    return null;
   }
 }
