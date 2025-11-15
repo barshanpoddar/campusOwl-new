@@ -59,10 +59,24 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ],
                     ),
-                    // Theme toggle moved to main, but if needed
-                    const CircleAvatar(
-                      backgroundColor: Color(0xFFFACC15), // Yellow
-                      child: AppIcon(assetName: 'Owl_icon', icon: Icons.pets, color: Colors.black),
+                    // Avatar + theme toggle
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () => themeProvider.toggleTheme(),
+                          tooltip: isDark ? 'Switch to light' : 'Switch to dark',
+                          icon: AppIcon(
+                            assetName: isDark ? 'sun' : 'moon',
+                            size: 24,
+                            color: isDark ? Colors.white : Colors.black,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        const CircleAvatar(
+                          backgroundColor: Color(0xFFFACC15), // Yellow
+                          child: AppIcon(assetName: 'Owl_icon', icon: Icons.pets, color: Colors.black),
+                        ),
+                      ],
                     ),
                   ],
                 ),
