@@ -9,6 +9,7 @@ import 'screens/focus_screen.dart';
 import 'widgets/bottom_navigation.dart';
 import 'themes.dart';
 import 'providers/theme_provider.dart';
+import 'screens/splash_screen.dart';
 
 void main() {
   runApp(
@@ -31,7 +32,11 @@ class CampusOwlApp extends StatelessWidget {
           theme: appThemeLight,
           darkTheme: appThemeDark,
           themeMode: themeProvider.themeMode,
-          home: const MainPage(),
+          // Start with a lightweight splash screen and route to MainPage.
+          home: const SplashScreen(),
+          routes: {
+            '/home': (_) => const MainPage(),
+          },
           debugShowCheckedModeBanner: false,
         );
       },
