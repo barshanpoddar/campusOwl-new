@@ -13,7 +13,8 @@ class AppIcon extends StatelessWidget {
   final double size;
   final Color? color;
 
-  const AppIcon({super.key, this.assetName, this.icon, this.size = 24, this.color});
+  const AppIcon(
+      {super.key, this.assetName, this.icon, this.size = 24, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -29,15 +30,21 @@ class AppIcon extends StatelessWidget {
       builder: (context, snap) {
         if (snap.connectionState == ConnectionState.done) {
           final path = snap.data;
-          if (path == null) return Icon(icon ?? Icons.circle, size: size, color: color);
+          if (path == null)
+            return Icon(icon ?? Icons.circle, size: size, color: color);
           if (path.endsWith('.svg')) {
-            return SvgPicture.asset(path, width: size, height: size, colorFilter: ColorFilter.mode(color ?? Colors.black, BlendMode.srcIn));
+            return SvgPicture.asset(path,
+                width: size,
+                height: size,
+                colorFilter:
+                    ColorFilter.mode(color ?? Colors.black, BlendMode.srcIn));
           }
           return Image.asset(path, width: size, height: size, color: color);
         }
 
-        // Keep layout stable while resolving asset.
-        return SizedBox(width: size, height: size);
+        // Show a synchronous fallback icon while resolving the asset so buttons
+        // and other controls don't appear empty while the async lookup runs.
+        return Icon(icon ?? Icons.circle, size: size, color: color);
       },
     );
   }
