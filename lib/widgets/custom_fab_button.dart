@@ -73,6 +73,7 @@ class CustomFabButtonState extends State<CustomFabButton>
           style: ElevatedButton.styleFrom(
             backgroundColor: widget.backgroundColor,
             foregroundColor: widget.foregroundColor,
+            padding: EdgeInsets.zero,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(isExpanded ? 16 : 28), // Rounded when collapsed, less when expanded
             ),
@@ -83,22 +84,38 @@ class CustomFabButtonState extends State<CustomFabButton>
           child: AnimatedBuilder(
             animation: _animation,
             builder: (context, child) {
+              // When collapsed (not expanded), center the icon
+              // When expanded, show icon + label in a row
+              if (!isExpanded) {
+                return Center(
+                  child: widget.svgAsset != null
+                      ? SvgPicture.asset(
+                          widget.svgAsset!,
+                          width: 32,
+                          height: 32,
+                          colorFilter: ColorFilter.mode(widget.foregroundColor, BlendMode.srcIn),
+                        )
+                      : Icon(widget.icon, size: 32),
+                );
+              }
+              
               return Row(
                 mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Icon (always visible)
                   if (widget.svgAsset != null)
                     SvgPicture.asset(
                       widget.svgAsset!,
-                      width: 20,
-                      height: 20,
+                      width: 24,
+                      height: 24,
                       colorFilter: ColorFilter.mode(widget.foregroundColor, BlendMode.srcIn),
                     )
                   else
-                    Icon(widget.icon, size: 20),
+                    Icon(widget.icon, size: 24),
 
                   // animated spacing between icon and label
-                  SizedBox(width: _animation.value * 8 + 6),
+                  SizedBox(width: _animation.value * 8),
 
                   // label fades in/out based on animation value
                   Opacity(
@@ -106,7 +123,7 @@ class CustomFabButtonState extends State<CustomFabButton>
                     child: _animation.value > 0.01
                         ? Text(
                             widget.label,
-                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                           )
                         : const SizedBox.shrink(),
                   ),
