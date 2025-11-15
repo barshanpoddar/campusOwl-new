@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../widgets/app_icon.dart';
 import '../widgets/custom_fab_button.dart';
-import '../widgets/custom_tab_bar.dart';
 
 class ServicesScreen extends StatefulWidget {
   final GlobalKey<CustomFabButtonState>? fabKey;
@@ -14,7 +13,6 @@ class ServicesScreen extends StatefulWidget {
 }
 
 class _ServicesScreenState extends State<ServicesScreen> {
-  String activeTab = 'mess';
   late final GlobalKey<CustomFabButtonState> _fabKey =
       widget.fabKey ?? GlobalKey<CustomFabButtonState>();
 
@@ -24,28 +22,9 @@ class _ServicesScreenState extends State<ServicesScreen> {
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () => _fabKey.currentState?.collapse(),
-        child: Column(
-          children: [
-            // Custom tab bar for Mess / Tiffin
-            CustomTabBar(
-              tabs: const [
-                CustomTabItem(id: 'mess', label: 'Mess'),
-                CustomTabItem(id: 'tiffin', label: 'Tiffin'),
-              ],
-              activeTabId: activeTab,
-              onTabChanged: (tabId) {
-                _fabKey.currentState?.collapse();
-                setState(() => activeTab = tabId);
-              },
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child:
-                    activeTab == 'mess' ? _buildMessList() : _buildTiffinList(),
-              ),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: _buildMessList(),
         ),
       ),
       floatingActionButton: CustomFabButton(
