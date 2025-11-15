@@ -57,6 +57,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
   late final List<Widget> _screens;
+  late final PageController _pageController;
   // Keys to control FABs inside specific screens so we can collapse them when switching tabs
   final GlobalKey<CustomFabButtonState> _notesFabKey = GlobalKey<CustomFabButtonState>();
   final GlobalKey<CustomFabButtonState> _servicesFabKey = GlobalKey<CustomFabButtonState>();
@@ -72,6 +73,13 @@ class _MainPageState extends State<MainPage> {
       const JobsScreen(),
       const FocusScreen(),
     ];
+    _pageController = PageController(initialPage: _selectedIndex);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -79,8 +87,11 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       // Use IndexedStack to keep off-screen widgets alive and make switching instant.
       body: SafeArea(
-        child: IndexedStack(
-          index: _selectedIndex,
+        // Use a PageView and animate between pages for a short, snappy transition.
+        child: PageView(
+          controller: _pageController,
+          physics: const NeverScrollableScrollPhysics(),
+          onPageChanged: (index) => setState(() => _selectedIndex = index),
           children: _screens,
         ),
       ),
@@ -90,7 +101,14 @@ class _MainPageState extends State<MainPage> {
           // collapse any open FABs in screens before switching
           _notesFabKey.currentState?.collapse();
           _servicesFabKey.currentState?.collapse();
+          // Update selected index immediately for visual feedback on the nav,
+          // then animate the page change with a short duration so the app feels snappy.
           setState(() => _selectedIndex = index);
+          _pageController.animateToPage(
+            index,
+            duration: const Duration(milliseconds: 180),
+            curve: Curves.easeOut,
+          );
         },
       ),
     );
