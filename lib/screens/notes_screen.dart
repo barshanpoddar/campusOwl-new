@@ -5,7 +5,9 @@ import 'group_chat_screen.dart';
 import '../widgets/custom_fab_button.dart';
 
 class NotesScreen extends StatefulWidget {
-  const NotesScreen({super.key});
+  final GlobalKey<CustomFabButtonState>? fabKey;
+
+  const NotesScreen({super.key, this.fabKey});
 
   @override
   State<NotesScreen> createState() => _NotesScreenState();
@@ -15,7 +17,8 @@ class _NotesScreenState extends State<NotesScreen> {
   String activeTab = 'notes';
   Note? _selectedNote;
   Group? _selectedGroup;
-  final GlobalKey<CustomFabButtonState> _fabKey = GlobalKey<CustomFabButtonState>();
+  // use widget.fabKey if provided (allows parent to control FAB), otherwise private key
+  late final GlobalKey<CustomFabButtonState> _fabKey = widget.fabKey ?? GlobalKey<CustomFabButtonState>();
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +48,10 @@ class _NotesScreenState extends State<NotesScreen> {
                     children: [
                       Expanded(
                         child: TextButton(
-                          onPressed: () => setState(() => activeTab = 'notes'),
+                          onPressed: () {
+                            _fabKey.currentState?.collapse();
+                            setState(() => activeTab = 'notes');
+                          },
                           style: TextButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 8.0)),
                           child: Text(
                             'My Notes',
@@ -58,7 +64,10 @@ class _NotesScreenState extends State<NotesScreen> {
                       ),
                       Expanded(
                         child: TextButton(
-                          onPressed: () => setState(() => activeTab = 'groups'),
+                          onPressed: () {
+                            _fabKey.currentState?.collapse();
+                            setState(() => activeTab = 'groups');
+                          },
                           style: TextButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 8.0)),
                           child: Text(
                             'Groups',

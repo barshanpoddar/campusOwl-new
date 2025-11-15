@@ -6,6 +6,7 @@ import 'screens/notes_screen.dart';
 import 'screens/services_screen.dart';
 import 'screens/jobs_screen.dart';
 import 'screens/focus_screen.dart';
+import 'widgets/custom_fab_button.dart';
 import 'widgets/bottom_navigation.dart';
 import 'themes.dart';
 import 'providers/theme_provider.dart';
@@ -56,6 +57,9 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
   late final List<Widget> _screens;
+  // Keys to control FABs inside specific screens so we can collapse them when switching tabs
+  final GlobalKey<CustomFabButtonState> _notesFabKey = GlobalKey<CustomFabButtonState>();
+  final GlobalKey<CustomFabButtonState> _servicesFabKey = GlobalKey<CustomFabButtonState>();
 
   @override
   void initState() {
@@ -63,8 +67,8 @@ class _MainPageState extends State<MainPage> {
     // Create screens once to avoid rebuilding heavy widgets on each tab change.
     _screens = [
       const HomeScreen(),
-      const NotesScreen(),
-      const ServicesScreen(),
+      NotesScreen(fabKey: _notesFabKey),
+      ServicesScreen(fabKey: _servicesFabKey),
       const JobsScreen(),
       const FocusScreen(),
     ];
@@ -82,7 +86,12 @@ class _MainPageState extends State<MainPage> {
       ),
       bottomNavigationBar: BottomNavigation(
         currentIndex: _selectedIndex,
-        onTap: (index) => setState(() => _selectedIndex = index),
+        onTap: (index) {
+          // collapse any open FABs in screens before switching
+          _notesFabKey.currentState?.collapse();
+          _servicesFabKey.currentState?.collapse();
+          setState(() => _selectedIndex = index);
+        },
       ),
     );
   }

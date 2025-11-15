@@ -4,7 +4,9 @@ import '../widgets/app_icon.dart';
 import '../widgets/custom_fab_button.dart';
 
 class ServicesScreen extends StatefulWidget {
-  const ServicesScreen({super.key});
+  final GlobalKey<CustomFabButtonState>? fabKey;
+
+  const ServicesScreen({super.key, this.fabKey});
 
   @override
   State<ServicesScreen> createState() => _ServicesScreenState();
@@ -12,7 +14,7 @@ class ServicesScreen extends StatefulWidget {
 
 class _ServicesScreenState extends State<ServicesScreen> {
   String activeTab = 'mess';
-  final GlobalKey<CustomFabButtonState> _fabKey = GlobalKey<CustomFabButtonState>();
+  late final GlobalKey<CustomFabButtonState> _fabKey = widget.fabKey ?? GlobalKey<CustomFabButtonState>();
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +28,19 @@ class _ServicesScreenState extends State<ServicesScreen> {
           Row(children: [
             Expanded(
               child: TextButton(
-                onPressed: () => setState(() => activeTab = 'mess'),
+                onPressed: () {
+                  _fabKey.currentState?.collapse();
+                  setState(() => activeTab = 'mess');
+                },
                 child: Text('Mess', style: TextStyle(color: activeTab == 'mess' ? Theme.of(context).primaryColor : Colors.grey)),
               ),
             ),
             Expanded(
               child: TextButton(
-                onPressed: () => setState(() => activeTab = 'tiffin'),
+                onPressed: () {
+                  _fabKey.currentState?.collapse();
+                  setState(() => activeTab = 'tiffin');
+                },
                 child: Text('Tiffin', style: TextStyle(color: activeTab == 'tiffin' ? Theme.of(context).primaryColor : Colors.grey)),
               ),
             ),
