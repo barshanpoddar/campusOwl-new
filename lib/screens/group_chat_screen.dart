@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../widgets/app_icon.dart';
+import '../widgets/custom_fab_button.dart';
 
 class GroupChatScreen extends StatefulWidget {
   final Group group;
@@ -16,6 +17,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
   final TextEditingController _controller = TextEditingController();
   late List<ChatMessage> _messages;
   OverlayEntry? _menuEntry;
+  final GlobalKey<CustomFabButtonState> _fabKey = GlobalKey<CustomFabButtonState>();
 
   @override
   void initState() {
@@ -29,7 +31,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
     // remove any existing
     _hideCustomMenu();
 
-  final overlay = Overlay.of(context);
+    final overlay = Overlay.of(context);
 
     final RenderBox overlayBox = overlay.context.findRenderObject() as RenderBox;
     final local = overlayBox.globalToLocal(globalPosition);
@@ -49,7 +51,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
                   decoration: BoxDecoration(
                     color: Theme.of(context).cardColor,
                     borderRadius: BorderRadius.circular(8),
-                    boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 8)],
+                    boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 8)],
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -136,56 +138,68 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(12),
-              itemCount: _messages.length,
-              itemBuilder: (context, index) {
-                final m = _messages[index];
-                final isMe = m.sender == 'You';
-                return Align(
-                  alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(vertical: 6),
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: isMe ? Theme.of(context).primaryColor : Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 2)],
+      body: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () => _fabKey.currentState?.collapse(),
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.all(12),
+                itemCount: _messages.length,
+                itemBuilder: (context, index) {
+                  final m = _messages[index];
+                  final isMe = m.sender == 'You';
+                  return Align(
+                    alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(vertical: 6),
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: isMe ? Theme.of(context).primaryColor : Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 2)],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (!isMe) Text(m.sender, style: const TextStyle(fontWeight: FontWeight.bold)),
+                          const SizedBox(height: 4),
+                          Text(m.text, style: TextStyle(color: isMe ? Colors.white : Colors.black87)),
+                          const SizedBox(height: 6),
+                          Row(mainAxisSize: MainAxisSize.min, children: [Text(m.time, style: TextStyle(fontSize: 11, color: isMe ? Colors.white70 : Colors.grey))]),
+                        ],
+                      ),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (!isMe) Text(m.sender, style: const TextStyle(fontWeight: FontWeight.bold)),
-                        const SizedBox(height: 4),
-                        Text(m.text, style: TextStyle(color: isMe ? Colors.white : Colors.black87)),
-                        const SizedBox(height: 6),
-                        Row(mainAxisSize: MainAxisSize.min, children: [Text(m.time, style: TextStyle(fontSize: 11, color: isMe ? Colors.white70 : Colors.grey))]),
-                      ],
+                  );
+                },
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(border: Border(top: BorderSide(color: Colors.grey.shade200))),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _controller,
+                      decoration: const InputDecoration.collapsed(hintText: 'Type a message...'),
                     ),
                   ),
-                );
-              },
+                  IconButton(onPressed: _send, icon: AppIcon(assetName: 'paper_airplane', icon: Icons.send, color: Theme.of(context).primaryColor), color: Theme.of(context).primaryColor),
+                ],
+              ),
             ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(border: Border(top: BorderSide(color: Colors.grey.shade200))),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    decoration: const InputDecoration.collapsed(hintText: 'Type a message...'),
-                  ),
-                ),
-                IconButton(onPressed: _send, icon: AppIcon(assetName: 'paper_airplane', icon: Icons.send, color: Theme.of(context).primaryColor), color: Theme.of(context).primaryColor),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
+      ),
+      floatingActionButton: CustomFabButton(
+        key: _fabKey,
+        icon: Icons.attach_file,
+        label: 'Attach',
+        onPressed: () {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Attach feature not implemented')));
+        },
       ),
     );
   }

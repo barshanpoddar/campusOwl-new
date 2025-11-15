@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../constants.dart';
-import '../widgets/app_icon.dart';
 import 'note_detail_screen.dart';
 import 'group_chat_screen.dart';
+import '../widgets/custom_fab_button.dart';
 
 class NotesScreen extends StatefulWidget {
   const NotesScreen({super.key});
@@ -15,6 +15,7 @@ class _NotesScreenState extends State<NotesScreen> {
   String activeTab = 'notes';
   Note? _selectedNote;
   Group? _selectedGroup;
+  final GlobalKey<CustomFabButtonState> _fabKey = GlobalKey<CustomFabButtonState>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,35 +31,92 @@ class _NotesScreenState extends State<NotesScreen> {
       appBar: AppBar(
         title: const Text('Notes'),
       ),
-      body: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: TextButton(
-                  onPressed: () => setState(() => activeTab = 'notes'),
-                  child: Text('My Notes', style: TextStyle(color: activeTab == 'notes' ? Theme.of(context).primaryColor : Colors.grey)),
-                ),
+      body: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () => _fabKey.currentState?.collapse(),
+        child: Column(
+          children: [
+            // Top tabs: My Notes / Groups with an animated underline indicator
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () => setState(() => activeTab = 'notes'),
+                          style: TextButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 8.0)),
+                          child: Text(
+                            'My Notes',
+                            style: TextStyle(
+                              color: activeTab == 'notes' ? Theme.of(context).primaryColor : Colors.grey,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () => setState(() => activeTab = 'groups'),
+                          style: TextButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 8.0)),
+                          child: Text(
+                            'Groups',
+                            style: TextStyle(
+                              color: activeTab == 'groups' ? Theme.of(context).primaryColor : Colors.grey,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  // light divider and animated underline indicator beneath the active tab
+                  Container(
+                    height: 28,
+                    child: Stack(
+                      children: [
+                        // subtle divider line
+                        Positioned.fill(
+                          child: Align(
+                            alignment: Alignment.topCenter,
+                            child: Container(height: 1, color: Colors.grey.shade200),
+                          ),
+                        ),
+                        AnimatedAlign(
+                          duration: const Duration(milliseconds: 250),
+                          curve: Curves.easeInOut,
+                          alignment: activeTab == 'notes' ? const Alignment(-0.6, 0) : const Alignment(0.6, 0),
+                          child: Container(
+                            width: 80,
+                            height: 3,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              borderRadius: BorderRadius.circular(2),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              Expanded(
-                child: TextButton(
-                  onPressed: () => setState(() => activeTab = 'groups'),
-                  child: Text('Groups', style: TextStyle(color: activeTab == 'groups' ? Theme.of(context).primaryColor : Colors.grey)),
-                ),
-              ),
-            ],
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: activeTab == 'notes' ? _buildNotesList() : _buildGroupsList(),
             ),
-          ),
-        ],
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: activeTab == 'notes' ? _buildNotesList() : _buildGroupsList(),
+              ),
+            ),
+          ],
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: CustomFabButton(
+        key: _fabKey,
+        icon: Icons.add,
+        label: activeTab == 'notes' ? 'New Note' : 'New Group',
         onPressed: () {},
-        child: const AppIcon(assetName: 'plus', icon: Icons.add),
       ),
     );
   }

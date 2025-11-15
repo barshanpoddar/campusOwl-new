@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../widgets/app_icon.dart';
+import '../widgets/custom_fab_button.dart';
 
 class ServicesScreen extends StatefulWidget {
   const ServicesScreen({super.key});
@@ -11,12 +12,16 @@ class ServicesScreen extends StatefulWidget {
 
 class _ServicesScreenState extends State<ServicesScreen> {
   String activeTab = 'mess';
+  final GlobalKey<CustomFabButtonState> _fabKey = GlobalKey<CustomFabButtonState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Services')),
-      body: Column(
+      body: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () => _fabKey.currentState?.collapse(),
+        child: Column(
         children: [
           Row(children: [
             Expanded(
@@ -39,10 +44,13 @@ class _ServicesScreenState extends State<ServicesScreen> {
             ),
           ),
         ],
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: CustomFabButton(
+        key: _fabKey,
+        icon: Icons.add,
+        label: 'Add Service',
         onPressed: () {},
-        child: const AppIcon(assetName: 'plus', icon: Icons.add),
       ),
     );
   }
