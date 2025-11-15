@@ -107,6 +107,10 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appBarIconColor = Theme.of(context).appBarTheme.iconTheme?.color
+        ?? Theme.of(context).appBarTheme.foregroundColor
+        ?? Theme.of(context).iconTheme.color
+        ?? Theme.of(context).colorScheme.onSurface;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(icon: const AppIcon(assetName: 'arrow_left', icon: Icons.arrow_back), onPressed: widget.onClose),
@@ -121,23 +125,12 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
             onTapDown: (details) => _showCustomMenu(details.globalPosition),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // three stacked dots
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: List.generate(3, (i) => Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 2),
-                      width: 6,
-                      height: 6,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).appBarTheme.foregroundColor ?? Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                    )),
-                  ),
-                ],
+              child: Center(
+                child: AppIcon(
+                  assetName: 'menu',
+                  size: 20,
+                  color: appBarIconColor,
+                ),
               ),
             ),
           ),
