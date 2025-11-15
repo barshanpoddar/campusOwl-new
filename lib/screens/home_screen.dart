@@ -31,13 +31,14 @@ class _HomeScreenState extends State<HomeScreen> {
             ? Theme.of(context).scaffoldBackgroundColor
             : const Color(0xFFF8FAFC),
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header
-                Row(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Header
+                  Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
@@ -307,6 +308,7 @@ const Text(
                 ),
               ],
             ),
+          ),
           ),
         ),
       ),
