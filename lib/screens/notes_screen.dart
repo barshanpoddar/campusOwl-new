@@ -17,7 +17,6 @@ class NotesScreen extends StatefulWidget {
 class _NotesScreenState extends State<NotesScreen> {
   String activeTab = 'notes';
   Note? _selectedNote;
-  Group? _selectedGroup;
   // use widget.fabKey if provided (allows parent to control FAB), otherwise private key
   late final GlobalKey<CustomFabButtonState> _fabKey =
       widget.fabKey ?? GlobalKey<CustomFabButtonState>();
@@ -28,12 +27,6 @@ class _NotesScreenState extends State<NotesScreen> {
       return NoteDetailScreen(
           note: _selectedNote!,
           onClose: () => setState(() => _selectedNote = null));
-    }
-
-    if (_selectedGroup != null) {
-      return GroupChatScreen(
-          group: _selectedGroup!,
-          onClose: () => setState(() => _selectedGroup = null));
     }
 
     return Scaffold(
@@ -124,7 +117,11 @@ class _NotesScreenState extends State<NotesScreen> {
       itemBuilder: (context, index) {
         final group = dummyGroups[index];
         return InkWell(
-          onTap: () => setState(() => _selectedGroup = group),
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (_) => GroupChatScreen(
+                      group: group, onClose: () => Navigator.pop(context)))),
           child: Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(

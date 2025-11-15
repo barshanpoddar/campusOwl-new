@@ -218,26 +218,88 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               decoration: BoxDecoration(
-                  border: Border(top: BorderSide(color: Colors.grey.shade200))),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _controller,
-                      decoration: const InputDecoration.collapsed(
-                          hintText: 'Type a message...'),
+                border: Border(top: BorderSide(color: Colors.grey.shade200)),
+                color: Theme.of(context).scaffoldBackgroundColor,
+              ),
+              child: SizedBox(
+                height: 60,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    // small handle bar above input (visual)
+                    Positioned(
+                      top: -8,
+                      left: 0,
+                      right: 0,
+                      child: Center(
+                        child: Container(
+                          width: 36,
+                          height: 4,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: _send,
-                    icon: AppIcon(
-                        assetName: 'paper_airplane',
-                        icon: Icons.send,
-                        color: Theme.of(context).primaryColor),
-                  ),
-                ],
+
+                    // Input pill
+                    Positioned.fill(
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          padding: const EdgeInsets.only(
+                              right: 68), // leave space for send button
+                          child: TextField(
+                            controller: _controller,
+                            textInputAction: TextInputAction.send,
+                            onSubmitted: (_) => _send(),
+                            decoration: InputDecoration(
+                              hintText: 'Type a message...',
+                              filled: true,
+                              fillColor: Colors.grey.shade100,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 14),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // Send button (circular) overlapping right
+                    Positioned(
+                      right: 6,
+                      top: 8,
+                      bottom: 8,
+                      child: SizedBox(
+                        width: 44,
+                        height: 44,
+                        child: ElevatedButton(
+                          onPressed: _send,
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            backgroundColor: Theme.of(context).primaryColor,
+                            padding: EdgeInsets.zero,
+                            elevation: 0,
+                            shadowColor: Colors.transparent,
+                          ),
+                          child: AppIcon(
+                            assetName: 'paper_airplane',
+                            icon: Icons.send,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
