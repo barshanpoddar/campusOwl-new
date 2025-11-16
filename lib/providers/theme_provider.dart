@@ -12,8 +12,13 @@ class ThemeProvider with ChangeNotifier {
 
   Future<void> _loadThemeMode() async {
     final prefs = await SharedPreferences.getInstance();
-    final themeIndex = prefs.getInt('themeMode') ?? 0;
-    _themeMode = ThemeMode.values[themeIndex];
+    final stored = prefs.getInt('themeMode');
+    if (stored != null && stored >= 0 && stored < ThemeMode.values.length) {
+      _themeMode = ThemeMode.values[stored];
+    } else {
+      // Default to light theme when there's no stored preference.
+      _themeMode = ThemeMode.light;
+    }
     notifyListeners();
   }
 

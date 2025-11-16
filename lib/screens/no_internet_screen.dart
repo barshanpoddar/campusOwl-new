@@ -36,12 +36,6 @@ class _NoInternetScreenState extends State<NoInternetScreen> {
     final theme = Theme.of(context);
     return Scaffold(
       backgroundColor: const Color(0xFF0A3D91), // same royal blue
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: const Text('No internet'),
-        centerTitle: true,
-      ),
       body: SafeArea(
         child: Center(
           child: Column(
@@ -59,12 +53,12 @@ class _NoInternetScreenState extends State<NoInternetScreen> {
                 style: theme.textTheme.bodyMedium?.copyWith(color: Colors.white70),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 50),
               ElevatedButton.icon(
                 onPressed: _checking ? null : _retry,
-                icon: _checking
-                    ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
-                    : const AppIcon(assetName: 'arrow_path', size: 18, color: Colors.white),
+        icon: _checking
+          ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+          : const AppIcon(assetName: 'arrow_path', size: 18, color: Color(0xFF0A3D91)),
                 label: const Text('Retry'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,

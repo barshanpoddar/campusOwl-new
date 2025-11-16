@@ -76,12 +76,15 @@ class _AppIconState extends State<AppIcon> {
         child = Icon(widget.icon ?? Icons.circle,
             size: size, color: Colors.transparent);
       } else if (path.endsWith('.svg')) {
-        child = SvgPicture.asset(path,
-            key: ValueKey(path + (Theme.of(context).brightness.toString())),
-            width: size,
-            height: size,
-            colorFilter:
-                ColorFilter.mode(widget.color ?? Colors.black, BlendMode.srcIn));
+        child = SvgPicture.asset(
+          path,
+          key: ValueKey(path + (Theme.of(context).brightness.toString())),
+          width: size,
+          height: size,
+          // Use a ColorFilter so SVGs that reference `currentColor` for
+          // stroke/fill render correctly and avoid the deprecated `color` API.
+          colorFilter: ColorFilter.mode(widget.color ?? Colors.black, BlendMode.srcIn),
+        );
       } else {
         child = Image.asset(path,
             key: ValueKey(path + (Theme.of(context).brightness.toString())),
