@@ -34,7 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(24.0),
+              padding: const EdgeInsets.only(
+                  left: 12, right: 12, top: 24, bottom: 24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -90,9 +91,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   // Focus Streak (redesigned)
                   const SizedBox(height: 12),
                   Container(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      // Use theme card color so the card adapts to light/dark themes.
+                      color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(8),
                       boxShadow: const [
                         BoxShadow(color: Colors.black12, blurRadius: 4),
@@ -115,10 +117,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         Text(
                           'You\'re on a $currentStreak day streak!',
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
-                            color: Colors.orange,
+                            color: Theme.of(context).colorScheme.secondary,
                           ),
                         ),
                       ],

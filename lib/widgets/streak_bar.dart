@@ -26,8 +26,10 @@ class StreakBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final active = activeColor ?? Colors.orange;
-    final inactive = inactiveColor ?? Colors.grey.shade300;
+    final theme = Theme.of(context);
+    // Choose sensible theme-aware defaults when colors aren't provided.
+    final active = activeColor ?? theme.colorScheme.secondary;
+    final inactive = inactiveColor ?? (theme.brightness == Brightness.dark ? Colors.white30 : Colors.grey.shade300);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -65,6 +67,7 @@ class _StreakPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     // Animate scale and background color when toggling.
     return Tooltip(
       message: semanticLabel,
@@ -101,9 +104,9 @@ class _StreakPill extends StatelessWidget {
                   child: AppIcon(
                     assetName: assetName,
                     size: size * 0.56,
-                    // when done, icon is white for contrast; otherwise use
-                    // the inactiveColor to match outline.
-                    color: done ? Colors.white : inactiveColor,
+                    // when done, pick a color that contrasts with the active
+                    // pill (use onSecondary / onPrimary where appropriate).
+                    color: done ? (theme.colorScheme.onSecondary) : inactiveColor,
                   ),
                 ),
               ),
