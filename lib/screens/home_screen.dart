@@ -116,20 +116,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           return AppIcon(
                             assetName: 'fire',
                             icon: Icons.local_fire_department,
-                            size: 40,
+                            size: 30,
                             color: streak[index] ? Colors.orange : Colors.grey,
                           );
                         }),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'You\'re on a $currentStreak day streak!',
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.orange,
-                        ),
                       ),
                     ],
                   ),
