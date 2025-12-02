@@ -1,0 +1,72 @@
+BUSINESS SOURCE LICENSE 1.1
+
+Copyright (c) 2025 barshanpoddar
+
+Licensed Work: The software and content in the repository located at
+https://github.com/barshanpoddar/campusOwl-new (the "Licensed Work").
+
+Change Date: 2030-12-02
+
+Change License: Apache License, Version 2.0
+
+1. Definitions
+
+1.1 "Licensor" means the copyright owner listed above.
+1.2 "You" (or "Your") means an individual or legal entity exercising
+    rights granted by this License.
+1.3 "Commercial Use" means using the Licensed Work, or any portion
+    thereof, for commercial advantage or monetary compensation, including
+    selling or sublicensing the Licensed Work or distributing a product or
+    service that derives its primary value from the Licensed Work.
+
+2. Grant of Rights
+
+Subject to the terms and conditions of this License, during the period
+starting on the date of copyright listed above and ending on the Change Date
+the Licensor grants You a non-exclusive, non-transferable, worldwide
+license to copy, modify, create derivative works of, publicly display, and
+use the Licensed Work for Non-Commercial Purposes only.
+
+3. Restrictions
+
+3.1 Except as expressly permitted above, You may not use, reproduce,
+    distribute, or prepare derivative works of the Licensed Work for
+    Commercial Use.
+3.2 You may distribute the Licensed Work within a non-commercial project,
+    provided that You include a copy of this License and retain the
+    copyright notice and attribution to the Licensor.
+
+4. Additional Rights
+
+4.1 The Licensor may provide additional permissions in writing (for
+    example, via a separate commercial license) which, if granted, will
+    supersede the restrictions above for the rights expressly granted.
+
+5. Change License
+
+On the Change Date specified above, the Licensed Work (including
+modifications and derivative works made and distributed under this License)
+will be made available under the Change License identified above (the
+"Change License") for all purposes without the non-commercial restriction
+imposed by this License.
+
+6. No Warranty
+
+The Licensed Work is licensed "AS IS", without warranty of any kind,
+express or implied, including but not limited to the warranties of
+merchantability, fitness for a particular purpose, and noninfringement.
+In no event shall the Licensor be liable for any claim, damages or other
+liability, whether in an action of contract, tort or otherwise, arising
+from, out of or in connection with the Licensed Work or the use or other
+dealings in the Licensed Work.
+
+7. Interpretation
+
+If any provision of this License is invalid or unenforceable under
+applicable law, it shall not affect the validity or enforceability of the
+remainder of the terms of this License.
+
+8. How to Apply this License
+
+Include this LICENSE file in the root of the repository and retain the
+copyright and attribution notices in source files where applicable.
