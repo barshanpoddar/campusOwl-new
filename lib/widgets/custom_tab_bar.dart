@@ -52,7 +52,7 @@ class CustomTabBar extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.only(top: 8.0),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
       ),
       child: Column(
