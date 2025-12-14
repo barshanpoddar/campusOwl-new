@@ -52,9 +52,7 @@ class CustomTabBar extends StatelessWidget {
         inactiveColor ?? (isDark ? Colors.grey.shade400 : Colors.grey.shade600);
     final effectiveIndicatorColor = indicatorColor ?? theme.primaryColor;
 
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
+    return Container(
       padding: const EdgeInsets.only(top: 8.0),
       decoration: BoxDecoration(
         color: isDark ? theme.scaffoldBackgroundColor : Colors.white,
@@ -129,9 +127,7 @@ class CustomTabBar extends StatelessWidget {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.easeInOut,
+                        child: Container(
                           height: 1,
                           color: isDark
                               ? Colors.grey.shade800

@@ -32,9 +32,7 @@ class _HomeScreenState extends State<HomeScreen>
     final isDark = themeProvider.themeMode == ThemeMode.dark;
 
     return Scaffold(
-      body: AnimatedContainer(
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
+      body: Container(
         color: isDark
             ? Theme.of(context).scaffoldBackgroundColor
             : const Color(0xFFF8FAFC),
@@ -83,9 +81,7 @@ class _HomeScreenState extends State<HomeScreen>
                           // Avatar + theme toggle
                           Row(
                             children: [
-                              AnimatedContainer(
-                                duration: const Duration(milliseconds: 500),
-                                curve: Curves.easeInOut,
+                              Container(
                                 decoration: BoxDecoration(
                                   color: isDark
                                       ? Colors.grey[800]
@@ -137,9 +133,7 @@ class _HomeScreenState extends State<HomeScreen>
                       // Focus Streak
                       const SizedBox(height: 28),
                       RepaintBoundary(
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.easeInOut,
+                        child: Container(
                           padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -242,9 +236,7 @@ class _HomeScreenState extends State<HomeScreen>
                       ),
                       const SizedBox(height: 14),
                       RepaintBoundary(
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.easeInOut,
+                        child: Container(
                           padding: const EdgeInsets.all(18),
                           decoration: BoxDecoration(
                             color:
@@ -349,9 +341,7 @@ class _HomeScreenState extends State<HomeScreen>
                       ),
                       const SizedBox(height: 14),
                       RepaintBoundary(
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.easeInOut,
+                        child: Container(
                           padding: const EdgeInsets.all(18),
                           decoration: BoxDecoration(
                             color:
@@ -486,9 +476,7 @@ class _HomeScreenState extends State<HomeScreen>
                       ),
                       const SizedBox(height: 14),
                       RepaintBoundary(
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.easeInOut,
+                        child: Container(
                           padding: const EdgeInsets.all(18),
                           decoration: BoxDecoration(
                             color:
