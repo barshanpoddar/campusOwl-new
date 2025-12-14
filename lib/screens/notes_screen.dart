@@ -16,13 +16,45 @@ class NotesScreen extends StatefulWidget {
 
 class _NotesScreenState extends State<NotesScreen>
     with AutomaticKeepAliveClientMixin {
+  late PageController _pageController;
   String activeTab = 'notes';
   // use widget.fabKey if provided (allows parent to control FAB), otherwise private key
   late final GlobalKey<CustomFabButtonState> _fabKey =
       widget.fabKey ?? GlobalKey<CustomFabButtonState>();
 
   @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: 0);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   bool get wantKeepAlive => true;
+
+  void _onTabChanged(String tabId) {
+    _fabKey.currentState?.collapse();
+    setState(() => activeTab = tabId);
+    final index = tabId == 'notes' ? 0 : 1;
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void _onPageChanged(int index) {
+    final newTab = index == 0 ? 'notes' : 'groups';
+    if (activeTab != newTab) {
+      _fabKey.currentState?.collapse();
+      setState(() => activeTab = newTab);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,17 +71,22 @@ class _NotesScreenState extends State<NotesScreen>
                 CustomTabItem(id: 'groups', label: 'Groups'),
               ],
               activeTabId: activeTab,
-              onTabChanged: (tabId) {
-                _fabKey.currentState?.collapse();
-                setState(() => activeTab = tabId);
-              },
+              onTabChanged: _onTabChanged,
             ),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: activeTab == 'notes'
-                    ? _buildNotesList()
-                    : _buildGroupsList(),
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: _onPageChanged,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: _buildNotesList(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: _buildGroupsList(),
+                  ),
+                ],
               ),
             ),
           ],

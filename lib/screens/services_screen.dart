@@ -15,12 +15,44 @@ class ServicesScreen extends StatefulWidget {
 
 class _ServicesScreenState extends State<ServicesScreen>
     with AutomaticKeepAliveClientMixin {
+  late PageController _pageController;
   String activeTab = 'mess';
   late final GlobalKey<CustomFabButtonState> _fabKey =
       widget.fabKey ?? GlobalKey<CustomFabButtonState>();
 
   @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: 0);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   bool get wantKeepAlive => true;
+
+  void _onTabChanged(String tabId) {
+    _fabKey.currentState?.collapse();
+    setState(() => activeTab = tabId);
+    final index = tabId == 'mess' ? 0 : 1;
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void _onPageChanged(int index) {
+    final newTab = index == 0 ? 'mess' : 'tiffin';
+    if (activeTab != newTab) {
+      _fabKey.currentState?.collapse();
+      setState(() => activeTab = newTab);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,16 +69,22 @@ class _ServicesScreenState extends State<ServicesScreen>
                 CustomTabItem(id: 'tiffin', label: 'Tiffin'),
               ],
               activeTabId: activeTab,
-              onTabChanged: (tabId) {
-                _fabKey.currentState?.collapse();
-                setState(() => activeTab = tabId);
-              },
+              onTabChanged: _onTabChanged,
             ),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child:
-                    activeTab == 'mess' ? _buildMessList() : _buildTiffinList(),
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: _onPageChanged,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: _buildMessList(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: _buildTiffinList(),
+                  ),
+                ],
               ),
             ),
           ],
