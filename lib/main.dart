@@ -37,6 +37,9 @@ class CampusOwlApp extends StatelessWidget {
           theme: appThemeLight,
           darkTheme: appThemeDark,
           themeMode: themeProvider.themeMode,
+          // Add smooth transition for theme changes
+          themeAnimationDuration: const Duration(milliseconds: 500),
+          themeAnimationCurve: Curves.easeInOut,
           // Start with a lightweight splash screen and route to MainPage.
           home: const SplashScreen(),
           routes: {

@@ -118,7 +118,9 @@ class _NotesScreenState extends State<NotesScreen>
               ),
             ),
           ),
-          child: Container(
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
@@ -165,7 +167,9 @@ class _NotesScreenState extends State<NotesScreen>
               MaterialPageRoute(
                   builder: (_) => GroupChatScreen(
                       group: group, onClose: () => Navigator.pop(context)))),
-          child: Container(
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,

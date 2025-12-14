@@ -109,7 +109,9 @@ class _ServicesScreenState extends State<ServicesScreen>
         return InkWell(
           onTap: () => Navigator.push(context,
               MaterialPageRoute(builder: (_) => MessDetailScreen(mess: m))),
-          child: Container(
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
                 color: Theme.of(context).cardColor,
@@ -152,7 +154,9 @@ class _ServicesScreenState extends State<ServicesScreen>
         return InkWell(
           onTap: () => Navigator.push(context,
               MaterialPageRoute(builder: (_) => TiffinDetailScreen(tiffin: t))),
-          child: Container(
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
                 color: Theme.of(context).cardColor,
