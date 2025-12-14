@@ -6,7 +6,8 @@ class NoteDetailScreen extends StatefulWidget {
   final Note note;
   final VoidCallback onClose;
 
-  const NoteDetailScreen({super.key, required this.note, required this.onClose});
+  const NoteDetailScreen(
+      {super.key, required this.note, required this.onClose});
 
   @override
   State<NoteDetailScreen> createState() => _NoteDetailScreenState();
@@ -27,7 +28,8 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
     String result;
     if (action == 'summarize') {
       // take the first 3 lines-ish
-      final lines = content.trim().split('\n').where((l) => l.trim().isNotEmpty).toList();
+      final lines =
+          content.trim().split('\n').where((l) => l.trim().isNotEmpty).toList();
       result = lines.take(4).join('\n').trim();
     } else if (action == 'keyPoints') {
       final bullets = content
@@ -54,7 +56,10 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
     final note = widget.note;
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon: const AppIcon(assetName: 'arrow_left', icon: Icons.arrow_back), onPressed: widget.onClose),
+        leading: IconButton(
+            icon:
+                const AppIcon(assetName: 'arrow_left', icon: Icons.arrow_back),
+            onPressed: widget.onClose),
         title: Text(note.title),
       ),
       body: Column(
@@ -66,12 +71,17 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                    decoration: BoxDecoration(color: Colors.yellow[100], borderRadius: BorderRadius.circular(6)),
-                    child: Text(note.subject, style: const TextStyle(fontWeight: FontWeight.w600)),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                    decoration: BoxDecoration(
+                        color: Colors.yellow[100],
+                        borderRadius: BorderRadius.circular(6)),
+                    child: Text(note.subject,
+                        style: const TextStyle(fontWeight: FontWeight.w600)),
                   ),
                   const SizedBox(height: 8),
-                  Text('by ${note.author}', style: TextStyle(color: Colors.grey[700])),
+                  Text('by ${note.author}',
+                      style: TextStyle(color: Colors.grey[700])),
                   const SizedBox(height: 12),
                   Text(note.content, style: const TextStyle(height: 1.4)),
                   const SizedBox(height: 24),
@@ -79,7 +89,9 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(color: Colors.blue[50], borderRadius: BorderRadius.circular(8)),
+                      decoration: BoxDecoration(
+                          color: Colors.blue[50],
+                          borderRadius: BorderRadius.circular(8)),
                       child: Text(_aiResponse!),
                     ),
                 ],
@@ -91,7 +103,7 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
             // reduced vertical padding to make the bar more compact
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).cardColor,
               border: Border(top: BorderSide(color: Colors.grey.shade200)),
               boxShadow: [
                 BoxShadow(
@@ -102,8 +114,8 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
               ],
             ),
             child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
                 _buildActionButton(
                   icon: Icons.summarize,
                   label: 'Summarize',
@@ -141,8 +153,8 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
-  child: Container(
-  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 0),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -156,7 +168,10 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
               ),
               child: Center(
                 child: _loading
-                    ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
+                    ? const SizedBox(
+                        width: 18,
+                        height: 18,
+                        child: CircularProgressIndicator(strokeWidth: 2))
                     : AppIcon(
                         assetName: _assetNameForIcon(icon),
                         icon: icon,
@@ -184,9 +199,15 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
   // Map IconData choices to local asset names when available.
   String? _assetNameForIcon(IconData icon) {
     // Prefer SVG asset names that exist in assets/icons/
-    if (icon == Icons.summarize || icon == Icons.description) return 'book_open';
-    if (icon == Icons.help_outline || icon == Icons.question_mark) return 'document_text';
-    if (icon == Icons.format_list_bulleted || icon == Icons.list) return 'list_bullet';
+    if (icon == Icons.summarize || icon == Icons.description) {
+      return 'book_open';
+    }
+    if (icon == Icons.help_outline || icon == Icons.question_mark) {
+      return 'document_text';
+    }
+    if (icon == Icons.format_list_bulleted || icon == Icons.list) {
+      return 'list_bullet';
+    }
     // fallback - try common names
     return null;
   }

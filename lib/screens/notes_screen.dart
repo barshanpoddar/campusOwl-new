@@ -79,7 +79,7 @@ class _NotesScreenState extends State<NotesScreen> {
           child: Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).cardColor,
               borderRadius: BorderRadius.circular(8),
               boxShadow: const [
                 BoxShadow(color: Colors.black12, blurRadius: 4)
@@ -126,7 +126,7 @@ class _NotesScreenState extends State<NotesScreen> {
           child: Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).cardColor,
               borderRadius: BorderRadius.circular(8),
               boxShadow: const [
                 BoxShadow(color: Colors.black12, blurRadius: 4)

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../constants.dart';
@@ -9,18 +8,22 @@ class BottomNavigation extends StatelessWidget {
   final ValueChanged<int> onTap;
   final List<NavigationItem>? items;
 
-  const BottomNavigation({super.key, required this.currentIndex, required this.onTap, this.items});
+  const BottomNavigation(
+      {super.key, required this.currentIndex, required this.onTap, this.items});
 
   @override
   Widget build(BuildContext context) {
     final navItems = items ?? navigationItems;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
       height: 84,
       decoration: BoxDecoration(
         color: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
         border: Border(
-          top: BorderSide(color: Colors.grey.shade200, width: 1),
+          top: BorderSide(
+              color: isDark ? Colors.grey.shade700 : Colors.grey.shade200,
+              width: 1),
         ),
       ),
       child: Row(
@@ -81,7 +84,9 @@ class _BottomNavigationItem extends StatelessWidget {
                   colorFilter: ColorFilter.mode(
                     isSelected
                         ? Theme.of(context).primaryColor
-                        : Theme.of(context).bottomNavigationBarTheme.unselectedItemColor!,
+                        : Theme.of(context)
+                            .bottomNavigationBarTheme
+                            .unselectedItemColor!,
                     BlendMode.srcIn,
                   ),
                 )
@@ -91,7 +96,9 @@ class _BottomNavigationItem extends StatelessWidget {
                   size: 24,
                   color: isSelected
                       ? Theme.of(context).primaryColor
-                      : Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,
+                      : Theme.of(context)
+                          .bottomNavigationBarTheme
+                          .unselectedItemColor,
                 ),
               const SizedBox(height: 4),
               Text(
@@ -99,7 +106,9 @@ class _BottomNavigationItem extends StatelessWidget {
                 style: TextStyle(
                   color: isSelected
                       ? Theme.of(context).primaryColor
-                      : Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,
+                      : Theme.of(context)
+                          .bottomNavigationBarTheme
+                          .unselectedItemColor,
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
                 ),

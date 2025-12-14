@@ -91,7 +91,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   // Focus Streak (redesigned)
                   const SizedBox(height: 12),
                   Container(
-                    padding: const EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
+                    padding: const EdgeInsets.only(
+                        left: 16, right: 16, top: 12, bottom: 12),
                     decoration: BoxDecoration(
                       // Use theme card color so the card adapts to light/dark themes.
                       color: Theme.of(context).cardColor,
@@ -138,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(8),
                       boxShadow: const [
                         BoxShadow(color: Colors.black12, blurRadius: 4),
@@ -182,7 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(8),
                       boxShadow: const [
                         BoxShadow(color: Colors.black12, blurRadius: 4),
@@ -238,7 +239,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(8),
                       boxShadow: const [
                         BoxShadow(color: Colors.black12, blurRadius: 4),
