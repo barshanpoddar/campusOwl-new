@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 // home_screen.dart exists (detailed home content); top-level landing page uses `home_page.dart`
 import 'screens/home_screen.dart';
 import 'screens/notes_screen.dart';
@@ -8,8 +9,8 @@ import 'screens/services_screen.dart';
 import 'screens/jobs_screen.dart';
 import 'screens/focus_screen.dart';
 import 'widgets/custom_fab_button.dart';
-import 'widgets/bottom_navigation.dart';
 import 'widgets/custom_alert_dialog.dart';
+import 'constants.dart';
 import 'themes.dart';
 import 'providers/theme_provider.dart';
 import 'screens/splash_screen.dart';
@@ -160,9 +161,9 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
             children: _screens,
           ),
         ),
-        bottomNavigationBar: BottomNavigation(
-          currentIndex: _selectedIndex,
-          onTap: (index) {
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: _selectedIndex,
+          onDestinationSelected: (index) {
             // collapse any open FABs in screens before switching
             _notesFabKey.currentState?.collapse();
             _servicesFabKey.currentState?.collapse();
@@ -175,6 +176,33 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
               curve: Curves.easeInOutCubic,
             );
           },
+          destinations: navigationItems.map((item) {
+            return NavigationDestination(
+              icon: item.asset != null
+                  ? SvgPicture.asset(
+                      item.asset!,
+                      width: 24,
+                      height: 24,
+                      colorFilter: ColorFilter.mode(
+                        Theme.of(context).colorScheme.onSurfaceVariant,
+                        BlendMode.srcIn,
+                      ),
+                    )
+                  : Icon(item.icon),
+              selectedIcon: item.asset != null
+                  ? SvgPicture.asset(
+                      item.asset!,
+                      width: 24,
+                      height: 24,
+                      colorFilter: ColorFilter.mode(
+                        Theme.of(context).colorScheme.primary,
+                        BlendMode.srcIn,
+                      ),
+                    )
+                  : Icon(item.icon),
+              label: item.name,
+            );
+          }).toList(),
         ),
       ),
     );

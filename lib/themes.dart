@@ -41,6 +41,37 @@ final ThemeData appThemeLight = ThemeData(
     selectedItemColor: primaryColor,
     unselectedItemColor: Colors.grey,
   ),
+  navigationBarTheme: NavigationBarThemeData(
+    height: 80,
+    backgroundColor: Colors.white,
+    indicatorColor: primaryColor.withValues(alpha: 0.15),
+    labelTextStyle: WidgetStateProperty.resolveWith((states) {
+      if (states.contains(WidgetState.selected)) {
+        return const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+          color: primaryColor,
+        );
+      }
+      return TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.w500,
+        color: Colors.grey[600],
+      );
+    }),
+    iconTheme: WidgetStateProperty.resolveWith((states) {
+      if (states.contains(WidgetState.selected)) {
+        return const IconThemeData(
+          size: 24,
+          color: primaryColor,
+        );
+      }
+      return IconThemeData(
+        size: 24,
+        color: Colors.grey[600],
+      );
+    }),
+  ),
   textTheme: const TextTheme(
     bodyLarge: TextStyle(color: Colors.black87),
     bodyMedium: TextStyle(color: Colors.black87),
@@ -83,6 +114,37 @@ final ThemeData appThemeDark = ThemeData(
     backgroundColor: Colors.grey[900],
     selectedItemColor: primaryColor,
     unselectedItemColor: Colors.grey[400],
+  ),
+  navigationBarTheme: NavigationBarThemeData(
+    height: 80,
+    backgroundColor: Colors.grey[900],
+    indicatorColor: primaryColor.withValues(alpha: 0.2),
+    labelTextStyle: WidgetStateProperty.resolveWith((states) {
+      if (states.contains(WidgetState.selected)) {
+        return const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+          color: primaryColor,
+        );
+      }
+      return TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.w500,
+        color: Colors.grey[400],
+      );
+    }),
+    iconTheme: WidgetStateProperty.resolveWith((states) {
+      if (states.contains(WidgetState.selected)) {
+        return const IconThemeData(
+          size: 24,
+          color: primaryColor,
+        );
+      }
+      return IconThemeData(
+        size: 24,
+        color: Colors.grey[400],
+      );
+    }),
   ),
   textTheme: const TextTheme(
     bodyLarge: TextStyle(color: Colors.white70),
