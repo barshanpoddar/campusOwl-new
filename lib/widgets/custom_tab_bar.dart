@@ -46,14 +46,16 @@ class CustomTabBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     final effectiveActiveColor = activeColor ?? theme.primaryColor;
-    final effectiveInactiveColor = inactiveColor ?? Colors.grey.shade600;
+    final effectiveInactiveColor =
+        inactiveColor ?? (isDark ? Colors.grey.shade400 : Colors.grey.shade600);
     final effectiveIndicatorColor = indicatorColor ?? theme.primaryColor;
 
     return Container(
       padding: const EdgeInsets.only(top: 8.0),
-      decoration: const BoxDecoration(
-        color: Colors.white,
+      decoration: BoxDecoration(
+        color: isDark ? theme.scaffoldBackgroundColor : Colors.white,
       ),
       child: Column(
         children: [
@@ -125,8 +127,12 @@ class CustomTabBar extends StatelessWidget {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        child:
-                            Container(height: 1, color: Colors.grey.shade200),
+                        child: Container(
+                          height: 1,
+                          color: isDark
+                              ? Colors.grey.shade800
+                              : Colors.grey.shade200,
+                        ),
                       ),
 
                     // Sliding indicator
