@@ -45,29 +45,28 @@ class Note {
 
 const List<Note> dummyNotes = [
   Note(
-    id: 1,
-    title: 'Quantum Physics Lecture Notes',
-    subject: 'Physics',
-    author: 'Jane Doe',
-    likes: 128,
-    comments: 12,
-    content: '''
+      id: 1,
+      title: 'Quantum Physics Lecture Notes',
+      subject: 'Physics',
+      author: 'Jane Doe',
+      likes: 128,
+      comments: 12,
+      content: '''
 Quantum physics is the study of matter and energy at its most fundamental level. It aims to uncover the properties and behaviors of the very building blocks of nature. While many quantum experiments examine very small objects, such as electrons and photons, quantum phenomena are all around us, acting on every scale. Key concepts include:
 
 - Wave-particle duality: This principle states that every particle or quantum entity may be described as either a particle or a wave.
 - Superposition: A quantum system can be in multiple states at the same time until it is measured.
 - Entanglement: A phenomenon where two or more quantum particles are linked in such a way that their fates are intertwined, no matter how far apart they are. Measuring a property of one particle instantly influences the other.
 - Quantization: In the quantum world, many properties like energy and momentum are quantized, meaning they can only take on discrete values.
-'''
-  ),
+'''),
   Note(
-    id: 2,
-    title: 'Data Structures & Algorithms',
-    subject: 'CS',
-    author: 'John Smith',
-    likes: 256,
-    comments: 25,
-    content: '''
+      id: 2,
+      title: 'Data Structures & Algorithms',
+      subject: 'CS',
+      author: 'John Smith',
+      likes: 256,
+      comments: 25,
+      content: '''
 Data Structures are a way of organizing and storing data so that they can be accessed and worked with efficiently. They define the relationship between the data, and the operations that can be performed on the data.
 
 Key Data Structures:
@@ -117,8 +116,10 @@ class Group {
 }
 
 const List<Group> dummyGroups = [
-  Group(id: 1, name: 'Computer Science Study Group', subject: 'CS', members: 12),
-  Group(id: 2, name: 'Physics Discussion Forum', subject: 'Physics', members: 8),
+  Group(
+      id: 1, name: 'Computer Science Study Group', subject: 'CS', members: 12),
+  Group(
+      id: 2, name: 'Physics Discussion Forum', subject: 'Physics', members: 8),
 ];
 
 const List<Map<int, List<ChatMessage>>> dummyChats = [
@@ -136,7 +137,8 @@ const List<Map<int, List<ChatMessage>>> dummyChats = [
       ChatMessage(
         id: 2,
         sender: 'Bob',
-        text: 'Sure! Quicksort is a divide and conquer algorithm. It picks a pivot and partitions the array.',
+        text:
+            'Sure! Quicksort is a divide and conquer algorithm. It picks a pivot and partitions the array.',
         time: '10:32',
         isRead: true,
       ),
@@ -155,7 +157,8 @@ const List<Map<int, List<ChatMessage>>> dummyChats = [
       ChatMessage(
         id: 2,
         sender: 'Dana',
-        text: 'It really is. Think of it as two particles being connected, even across the universe.',
+        text:
+            'It really is. Think of it as two particles being connected, even across the universe.',
         time: '11:05',
         isRead: false,
       ),
@@ -183,10 +186,34 @@ class Job {
 }
 
 const List<Job> dummyJobs = [
-  Job(id: 1, title: 'Part-time Graphic Designer', pay: '₹8,000/month', location: 'Remote', type: 'Design', rating: 4.8),
-  Job(id: 2, title: 'Math Tutor for Class 12', pay: '₹500/hr', location: 'On-campus', type: 'Tutoring', rating: 4.9),
-  Job(id: 3, title: 'Content Writer', pay: '₹0.50/word', location: 'Remote', type: 'Writing', rating: 4.5),
-  Job(id: 4, title: 'Photography Assistant', pay: '₹300/event', location: 'On-campus', type: 'Photography', rating: 4.7),
+  Job(
+      id: 1,
+      title: 'Part-time Graphic Designer',
+      pay: '₹8,000/month',
+      location: 'Remote',
+      type: 'Design',
+      rating: 4.8),
+  Job(
+      id: 2,
+      title: 'Math Tutor for Class 12',
+      pay: '₹500/hr',
+      location: 'On-campus',
+      type: 'Tutoring',
+      rating: 4.9),
+  Job(
+      id: 3,
+      title: 'Content Writer',
+      pay: '₹0.50/word',
+      location: 'Remote',
+      type: 'Writing',
+      rating: 4.5),
+  Job(
+      id: 4,
+      title: 'Photography Assistant',
+      pay: '₹300/event',
+      location: 'On-campus',
+      type: 'Photography',
+      rating: 4.7),
 ];
 
 // Mess
@@ -238,7 +265,8 @@ const List<Mess> dummyMesses = [
     rating: 4.6,
     distance: '0.8 km',
     hours: '7 AM - 10 PM',
-    description: 'Authentic Indian cuisine with fresh local ingredients. Known for our thalis and vegetarian options.',
+    description:
+        'Authentic Indian cuisine with fresh local ingredients. Known for our thalis and vegetarian options.',
     menu: {
       'Monday': {
         'Lunch': ['Rice', 'Dal Tadka', 'Aloo Gobi', 'Raita', 'Chapati'],
@@ -246,7 +274,13 @@ const List<Mess> dummyMesses = [
       },
       'Tuesday': {
         'Lunch': ['Chole', 'Purit', 'Onion Pakoras', 'Salad', 'Naan'],
-        'Dinner': ['Paneer Butter Masala', 'Basmati Rice', 'Cauliflower Sabzi', 'Dessert', 'Bread'],
+        'Dinner': [
+          'Paneer Butter Masala',
+          'Basmati Rice',
+          'Cauliflower Sabzi',
+          'Dessert',
+          'Bread'
+        ],
       },
       // Add more days...
     },

@@ -62,8 +62,10 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   late final List<Widget> _screens;
   late final PageController _pageController;
   // Keys to control FABs inside specific screens so we can collapse them when switching tabs
-  final GlobalKey<CustomFabButtonState> _notesFabKey = GlobalKey<CustomFabButtonState>();
-  final GlobalKey<CustomFabButtonState> _servicesFabKey = GlobalKey<CustomFabButtonState>();
+  final GlobalKey<CustomFabButtonState> _notesFabKey =
+      GlobalKey<CustomFabButtonState>();
+  final GlobalKey<CustomFabButtonState> _servicesFabKey =
+      GlobalKey<CustomFabButtonState>();
   DateTime? _pausedTime;
 
   @override
@@ -91,8 +93,9 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    
-    if (state == AppLifecycleState.paused || state == AppLifecycleState.detached) {
+
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.detached) {
       // App is going to background or being closed
       _pausedTime = DateTime.now();
     } else if (state == AppLifecycleState.resumed) {
@@ -121,7 +124,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   Future<void> _handleBackNavigation() async {
     // Check if there are any pushed routes (like note detail or group chat)
     final canPop = Navigator.of(context).canPop();
-    
+
     if (canPop) {
       // If there are routes to pop (e.g., note detail screen), just pop them
       Navigator.of(context).pop();

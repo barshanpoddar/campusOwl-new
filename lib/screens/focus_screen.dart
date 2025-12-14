@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class FocusScreen extends StatefulWidget {
   const FocusScreen({super.key});
@@ -83,23 +84,6 @@ class _FocusScreenState extends State<FocusScreen> {
     super.dispose();
   }
 
-  // Helper that returns an icon which cross-fades when the theme (brightness)
-  // changes. This avoids a visible placeholder or abrupt color jump during
-  // theme toggles.
-  Widget _themedIcon(IconData data, {double size = 18}) {
-    final brightness = Theme.of(context).brightness;
-    final key = ValueKey('${data.codePoint}-$brightness');
-    return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 180),
-      switchInCurve: Curves.easeIn,
-      switchOutCurve: Curves.easeOut,
-      child: Icon(data,
-          key: key,
-          size: size,
-          color: Theme.of(context).iconTheme.color),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final isPaused = !isActive && timeRemaining > 0;
@@ -131,22 +115,54 @@ class _FocusScreenState extends State<FocusScreen> {
             if (!isActive && !isPaused)
               ElevatedButton.icon(
                   onPressed: _start,
-                  icon: _themedIcon(Icons.play_arrow),
+                  icon: SvgPicture.asset(
+                    'assets/icons/play.svg',
+                    width: 18,
+                    height: 18,
+                    colorFilter: ColorFilter.mode(
+                      Theme.of(context).colorScheme.onPrimary,
+                      BlendMode.srcIn,
+                    ),
+                  ),
                   label: const Text('Start')),
             if (isPaused)
               ElevatedButton.icon(
                   onPressed: _start,
-                  icon: _themedIcon(Icons.play_arrow),
+                  icon: SvgPicture.asset(
+                    'assets/icons/play.svg',
+                    width: 18,
+                    height: 18,
+                    colorFilter: ColorFilter.mode(
+                      Theme.of(context).colorScheme.primary,
+                      BlendMode.srcIn,
+                    ),
+                  ),
                   label: const Text('Resume')),
             if (isActive)
               ElevatedButton.icon(
                   onPressed: _pause,
-                  icon: _themedIcon(Icons.pause),
+                  icon: SvgPicture.asset(
+                    'assets/icons/pause.svg',
+                    width: 18,
+                    height: 18,
+                    colorFilter: ColorFilter.mode(
+                      Theme.of(context).colorScheme.primary,
+                      BlendMode.srcIn,
+                    ),
+                  ),
                   label: const Text('Pause')),
             const SizedBox(width: 12),
             OutlinedButton.icon(
                 onPressed: _reset,
-                icon: _themedIcon(Icons.restart_alt),
+                icon: SvgPicture.asset(
+                  'assets/icons/arrow_path.svg',
+                  width: 18,
+                  height: 18,
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).colorScheme.primary,
+                    BlendMode.srcIn,
+                  ),
+                ),
                 label: const Text('Reset')),
           ]),
           const SizedBox(height: 20),
