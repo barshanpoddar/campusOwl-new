@@ -14,14 +14,19 @@ class NotesScreen extends StatefulWidget {
   State<NotesScreen> createState() => _NotesScreenState();
 }
 
-class _NotesScreenState extends State<NotesScreen> {
+class _NotesScreenState extends State<NotesScreen>
+    with AutomaticKeepAliveClientMixin {
   String activeTab = 'notes';
   // use widget.fabKey if provided (allows parent to control FAB), otherwise private key
   late final GlobalKey<CustomFabButtonState> _fabKey =
       widget.fabKey ?? GlobalKey<CustomFabButtonState>();
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,

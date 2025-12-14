@@ -29,19 +29,25 @@ class StreakBar extends StatelessWidget {
     final theme = Theme.of(context);
     // Choose sensible theme-aware defaults when colors aren't provided.
     final active = activeColor ?? theme.colorScheme.secondary;
-    final inactive = inactiveColor ?? (theme.brightness == Brightness.dark ? Colors.white30 : Colors.grey.shade300);
+    final inactive = inactiveColor ??
+        (theme.brightness == Brightness.dark
+            ? Colors.white30
+            : Colors.grey.shade300);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: List.generate(total, (index) {
         final done = index < current;
-        return _StreakPill(
-          size: size,
-          done: done,
-          assetName: assetName,
-          activeColor: active,
-          inactiveColor: inactive,
-          semanticLabel: 'Day ${index + 1} ${done ? 'completed' : 'not completed'}',
+        return RepaintBoundary(
+          child: _StreakPill(
+            size: size,
+            done: done,
+            assetName: assetName,
+            activeColor: active,
+            inactiveColor: inactive,
+            semanticLabel:
+                'Day ${index + 1} ${done ? 'completed' : 'not completed'}',
+          ),
         );
       }),
     );
@@ -106,7 +112,8 @@ class _StreakPill extends StatelessWidget {
                     size: size * 0.56,
                     // when done, pick a color that contrasts with the active
                     // pill (use onSecondary / onPrimary where appropriate).
-                    color: done ? (theme.colorScheme.onSecondary) : inactiveColor,
+                    color:
+                        done ? (theme.colorScheme.onSecondary) : inactiveColor,
                   ),
                 ),
               ),

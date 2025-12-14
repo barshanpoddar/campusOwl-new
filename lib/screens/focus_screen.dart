@@ -9,7 +9,8 @@ class FocusScreen extends StatefulWidget {
   State<FocusScreen> createState() => _FocusScreenState();
 }
 
-class _FocusScreenState extends State<FocusScreen> {
+class _FocusScreenState extends State<FocusScreen>
+    with AutomaticKeepAliveClientMixin {
   int pomodoroDuration = 25 * 60;
   int shortBreakDuration = 5 * 60;
   int longBreakDuration = 15 * 60;
@@ -18,6 +19,9 @@ class _FocusScreenState extends State<FocusScreen> {
   int timeRemaining = 25 * 60;
   Timer? _timer;
   int completedSessions = 0;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -86,6 +90,7 @@ class _FocusScreenState extends State<FocusScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final isPaused = !isActive && timeRemaining > 0;
     return Scaffold(
       body: Padding(

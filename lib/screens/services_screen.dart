@@ -13,13 +13,18 @@ class ServicesScreen extends StatefulWidget {
   State<ServicesScreen> createState() => _ServicesScreenState();
 }
 
-class _ServicesScreenState extends State<ServicesScreen> {
+class _ServicesScreenState extends State<ServicesScreen>
+    with AutomaticKeepAliveClientMixin {
   String activeTab = 'mess';
   late final GlobalKey<CustomFabButtonState> _fabKey =
       widget.fabKey ?? GlobalKey<CustomFabButtonState>();
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,

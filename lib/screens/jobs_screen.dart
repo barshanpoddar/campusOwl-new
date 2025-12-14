@@ -9,11 +9,15 @@ class JobsScreen extends StatefulWidget {
   State<JobsScreen> createState() => _JobsScreenState();
 }
 
-class _JobsScreenState extends State<JobsScreen> {
+class _JobsScreenState extends State<JobsScreen>
+    with AutomaticKeepAliveClientMixin {
   String query = '';
   bool showFilters = false;
   String sortBy = 'default';
   List<String> selectedTypes = [];
+
+  @override
+  bool get wantKeepAlive => true;
 
   List<Job> get filtered {
     var list = dummyJobs
@@ -42,6 +46,7 @@ class _JobsScreenState extends State<JobsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final jobTypes = dummyJobs.map((j) => j.type).toSet().toList();
     return Scaffold(
       body: Column(children: [

@@ -60,7 +60,6 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   int _selectedIndex = 0;
   late final List<Widget> _screens;
-  late final PageController _pageController;
   // Keys to control FABs inside specific screens so we can collapse them when switching tabs
   final GlobalKey<CustomFabButtonState> _notesFabKey =
       GlobalKey<CustomFabButtonState>();
@@ -80,13 +79,11 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       const JobsScreen(),
       const FocusScreen(),
     ];
-    _pageController = PageController(initialPage: _selectedIndex);
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _pageController.dispose();
     super.dispose();
   }
 
@@ -131,11 +128,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     } else if (_selectedIndex != 0) {
       // If on any tab other than home (index 0), navigate to home tab
       setState(() => _selectedIndex = 0);
-      _pageController.animateToPage(
-        0,
-        duration: const Duration(milliseconds: 250),
-        curve: Curves.easeInOutCubic,
-      );
     } else {
       // Already on home tab with no routes to pop, show exit confirmation
       final shouldExit = await _showExitConfirmation();
@@ -154,13 +146,10 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         await _handleBackNavigation();
       },
       child: Scaffold(
-        // Use IndexedStack to keep off-screen widgets alive and make switching instant.
+        // Use IndexedStack to keep all screens alive and make switching instant.
         body: SafeArea(
-          // Use a PageView and animate between pages for a short, snappy transition.
-          child: PageView(
-            controller: _pageController,
-            physics: const NeverScrollableScrollPhysics(),
-            onPageChanged: (index) => setState(() => _selectedIndex = index),
+          child: IndexedStack(
+            index: _selectedIndex,
             children: _screens,
           ),
         ),
@@ -170,14 +159,8 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
             // collapse any open FABs in screens before switching
             _notesFabKey.currentState?.collapse();
             _servicesFabKey.currentState?.collapse();
-            // Update selected index immediately for visual feedback on the nav,
-            // then animate the page change with a short duration so the app feels snappy.
+            // Update selected index immediately for instant tab switch
             setState(() => _selectedIndex = index);
-            _pageController.animateToPage(
-              index,
-              duration: const Duration(milliseconds: 250),
-              curve: Curves.easeInOutCubic,
-            );
           },
           destinations: navigationItems.map((item) {
             return NavigationDestination(
